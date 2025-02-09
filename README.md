@@ -4,7 +4,7 @@
 
 The **Hiking Blog** is a platform for outdoor enthusiasts to share, discover, and engage with hiking experiences. Users can create posts about their adventures, upvote or comment on other posts, and filter hikes by location and difficulty. The application is designed to be fully responsive and accessible across all devices.
 
-For detailed project planning, see: [Project Planning](planning.md)
+For project planning, see: [Project Planning](planning.md)
 
 ---
 
@@ -38,15 +38,24 @@ For a full list of planned features refer to the [Project Planning](planning.md)
 
 ### Prerequisites
 
-- Python 3.x
-- pip (Python package installer)
+- Python 
+- pip
 - Virtual environment 
 
 ### Installation Steps
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/BrandonWarrior/ukhikes.git
-   cd ukhikes
+## Bugs and Fixes 
 
+Bug 1: "ERR_SSL_PROTOCOL_ERROR" when running the server
+
+- Cause: Tried accessing Django’s development server over HTTPS, but it only supports HTTP.
+
+- Fix: Used http://127.0.0.1:8000/blog/ instead of https://.
+
+Bug 5: "git push rejected" due to upstream issues
+
+- Cause: The local Git branch was behind the remote repository.
+
+- Fix: Pulled remote changes first using:
+git pull origin main --rebase
 ## Credits 
