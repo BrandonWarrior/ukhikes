@@ -1,0 +1,1 @@
+web: gunicorn ukhikes.wsgi
