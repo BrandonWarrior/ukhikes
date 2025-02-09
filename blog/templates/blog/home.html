@@ -1,0 +1,43 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container text-center"></div>
+    <!-- Hero Section -->
+    <div class="jumbotron text-center bg-primary text-white py-5 rounded">
+        <h1 class="display-4">Welcome to UK Hikes 🏔</h1>
+        <p class="lead">Discover and share amazing hiking adventures across the UK.</p>
+    </div>
+
+    <!-- Featured Posts -->
+    <h2 class="my-4">🌟 Featured Hikes</h2>
+    <div class="row">
+        {% for post in featured_posts %}
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                    <a href="{% url 'post_detail' post.id %}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Recent Posts -->
+    <h2 class="my-4">🆕 Recent Hikes</h2>
+    <div class="row">
+        {% for post in recent_posts %}
+        <div class="col-md-4">
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                    <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
