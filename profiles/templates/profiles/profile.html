@@ -1,0 +1,54 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Image Section -->
+        <div class="col-4 text-center">
+            <img src="{{ user.profile.profile_picture.url }}"
+     class="profile-image img-fluid rounded-circle border" 
+     onerror="this.onerror=null;this.src='{{ MEDIA_URL }}default.jpg';"
+     alt="Profile Picture">
+        </div>
+
+        <!-- User Details Section -->
+        <div class="col-8">
+            <h2 class="text-primary">{{ user.username }}</h2>
+            <p class="text-muted">Member since: {{ user.date_joined|date:"F Y" }}</p>
+            <a href="{% url 'edit_profile' %}" class="btn btn-warning">Edit Profile</a>
+
+            <!-- Bio Section -->
+            <hr>
+            <h5>Bio</h5>
+            <p>{{ user.profile.bio|default:"No bio yet. Add something about yourself!" }}</p>
+        </div>
+    </div>
+
+    <!-- User Posts Section -->
+    <div class="row mt-4">
+        <div class="col">
+            <h3>Your Posts</h3>
+            {% if user.posts.all %}
+                <ul class="list-group">
+                    {% for post in user.posts.all %}
+                        <li class="list-group-item">
+                            <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                            <span class="badge bg-secondary">{{ post.created_at|date:"d M Y" }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You haven't created any posts yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Updated On -->
+    <div class="row">
+        <div class="col text-end">
+            <p><em>Updated on: {{ user.profile.updated_on|date:"d M Y" }}</em></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
