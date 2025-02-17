@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security Settings
 SECRET_KEY = 'django-insecure-wwfshzz==l8_+s(99staqopy=trqws2adfz^#1nz(v@-sizhfh'
-DEBUG = True
+DEBUG = False
 
 SITE_ID = 1
 
@@ -72,9 +72,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),  # Global Templates
-            os.path.join(BASE_DIR, 'profiles', 'templates'),  # Profiles Templates
-            os.path.join(BASE_DIR, 'blog', 'templates'),  # Blog Templates
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'profiles', 'templates'),
+            os.path.join(BASE_DIR, 'blog', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -127,10 +127,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django-allauth Settings
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_AUTHENTICATION_METHOD = "email"  # ✅ Allow users to log in with email
+ACCOUNT_AUTHENTICATION_METHOD = "email" 
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False  # ✅ Username is optional
-ACCOUNT_FORMS = {"signup": "profiles.forms.CustomSignupForm"}  # Use custom form for email-based signup
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_FORMS = {"signup": "profiles.forms.CustomSignupForm"}
 
 # crispy-forms Settings (Bootstrap 5)
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
