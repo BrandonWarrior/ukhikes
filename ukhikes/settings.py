@@ -5,12 +5,12 @@ Django settings for ukhikes project.
 from pathlib import Path
 import os
 
-# 🔹 Base Directory
+# Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 🔹 Security Settings
+# Security Settings
 SECRET_KEY = 'django-insecure-wwfshzz==l8_+s(99staqopy=trqws2adfz^#1nz(v@-sizhfh'
-DEBUG = False
+DEBUG = True
 
 SITE_ID = 1
 
@@ -29,7 +29,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
 ]
 
-# 🔹 Installed Applications
+# Installed Applications
 INSTALLED_APPS = [
     # Default Django Apps
     'django.contrib.admin',
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'profiles',
 ]
 
-# 🔹 Middleware
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -64,10 +64,10 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-# 🔹 Root URL Configuration
+# Root URL Configuration
 ROOT_URLCONF = 'ukhikes.urls'
 
-# 🔹 Templates Configuration
+# Templates Configuration
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -88,10 +88,10 @@ TEMPLATES = [
     },
 ]
 
-# 🔹 WSGI Application
+# WSGI Application
 WSGI_APPLICATION = 'ukhikes.wsgi.application'
 
-# 🔹 Database Configuration (SQLite for Development)
+# Database Configuration (SQLite for Development)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -99,7 +99,7 @@ DATABASES = {
     }
 }
 
-# 🔹 Password Validation
+# Password Validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -107,31 +107,31 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# 🔹 Internationalization
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# 🔹 Static Files (CSS, JavaScript, Images)
+# Static Files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# 🔹 Media Files (Profile Pictures & User Uploads)
+# Media Files (Profile Pictures & User Uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# 🔹 Default primary key field type
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 🔹 django-allauth Settings (✅ Fixed)
+# django-allauth Settings
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = "email"  # ✅ Allow users to log in with email
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False  # ✅ Username is optional
-ACCOUNT_FORMS = {"signup": "profiles.forms.CustomSignupForm"}  # ✅ Uses custom form for email-based signup
+ACCOUNT_FORMS = {"signup": "profiles.forms.CustomSignupForm"}  # Use custom form for email-based signup
 
-# 🔹 crispy-forms Settings (Bootstrap 5)
+# crispy-forms Settings (Bootstrap 5)
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"

@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -8,9 +8,27 @@
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
 
-                    <!-- Profile Picture Field -->
+                    <!-- Profile Picture Preview -->
                     <div class="mb-3 text-center">
-                        <label for="profile_picture" class="form-label">Profile Picture</label>
+                        <label for="profile_picture" class="form-label">Current Profile Picture</label>
+                        <div>
+                            {% if user.profile.profile_picture %}
+                                <img src="{{ user.profile.profile_picture.url }}" 
+                                     class="profile-image img-fluid rounded-circle border"
+                                     style="width: 150px; height: 150px; object-fit: cover;"
+                                     alt="Profile Picture">
+                            {% else %}
+                                <img src="/media/profile_pics/default.jpg" 
+                                     class="profile-image img-fluid rounded-circle border"
+                                     style="width: 150px; height: 150px; object-fit: cover;"
+                                     alt="Default Profile Picture">
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Profile Picture Upload Field -->
+                    <div class="mb-3">
+                        <label for="profile_picture" class="form-label">Upload New Profile Picture</label>
                         <input type="file" name="profile_picture" class="form-control">
                     </div>
 
