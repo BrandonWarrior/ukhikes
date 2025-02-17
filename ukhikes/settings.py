@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security Settings
 SECRET_KEY = 'django-insecure-wwfshzz==l8_+s(99staqopy=trqws2adfz^#1nz(v@-sizhfh'
-DEBUG = False
+DEBUG = True
 
 SITE_ID = 1
 
