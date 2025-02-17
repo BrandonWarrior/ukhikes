@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center">Edit Profile</h2>
+            <div class="card p-4 shadow-lg">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Profile Picture Field -->
+                    <div class="mb-3 text-center">
+                        <label for="profile_picture" class="form-label">Profile Picture</label>
+                        <input type="file" name="profile_picture" class="form-control">
+                    </div>
+
+                    <!-- Bio Field -->
+                    <div class="mb-3">
+                        <label for="bio" class="form-label">Bio</label>
+                        <textarea name="bio" id="bio" class="form-control bio-textarea">{{ form.bio.value }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 mt-3">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

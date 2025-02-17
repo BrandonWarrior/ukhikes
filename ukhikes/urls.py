@@ -1,17 +1,11 @@
-from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from blog.views import home
+from blog.views import home  # ✅ Import the home view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path('', home, name='home'),
-    path('blog/', include('blog.urls')),
-    path('profiles/', include('profiles.urls')),
+    path("profile/", include("profiles.urls")),
+    path("blog/", include("blog.urls")),
+    path("", home, name="home"),  # ✅ Define home correctly
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
