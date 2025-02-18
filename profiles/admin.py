@@ -1,22 +1,26 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
-from profiles.models import Profile
+from django.contrib.auth import get_user_model
 
-# Extend User model to show profiles in admin panel
-class ProfileInline(admin.StackedInline):
-    model = Profile
-    can_delete = False
-    verbose_name_plural = "Profiles"
+User = get_user_model()
 
 class CustomUserAdmin(UserAdmin):
-    inlines = (ProfileInline,)
+    fieldsets = (
+        (None, {"fields": ("email", "username", "password")}),  # Ensure username is included
+        ("Personal Info", {"fields": ("first_name", "last_name")}),
+        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
+    )
+    add_fieldsets = (
+        (None, {
+            "classes": ("wide",),
+            "fields": ("email", "username", "password1", "password2"),  # Include username
+        }),
+    )
+    list_display = ("email", "username", "is_staff", "date_joined")
+    search_fields = ("email", "username")
+    ordering = ("email",)
 
-# Unregister the default User model and register our customized one
+# Unregister the old UserAdmin and register the custom one
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
-
-# Register Profile separately
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("user", "bio", "profile_picture")

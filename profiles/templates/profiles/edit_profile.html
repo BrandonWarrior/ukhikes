@@ -18,7 +18,7 @@
                                      style="width: 150px; height: 150px; object-fit: cover;"
                                      alt="Profile Picture">
                             {% else %}
-                                <img src="/media/profile_pics/default.jpg" 
+                                <img src="{{ MEDIA_URL }}profile_pics/default.jpg" 
                                      class="profile-image img-fluid rounded-circle border"
                                      style="width: 150px; height: 150px; object-fit: cover;"
                                      alt="Default Profile Picture">
@@ -35,7 +35,7 @@
                     <!-- Bio Field -->
                     <div class="mb-3">
                         <label for="bio" class="form-label">Bio</label>
-                        <textarea name="bio" id="bio" class="form-control bio-textarea">{{ form.bio.value }}</textarea>
+                        <textarea name="bio" id="bio" class="form-control bio-textarea">{{ form.bio.value|default:"" }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-success w-100 mt-3">Update Profile</button>
