@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security Settings
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-wwfshzz==l8_+s(99staqopy=trqws2adfz^#1nz(v@-sizhfh')
-DEBUG = False
+DEBUG = True
 
 SITE_ID = 1
 
@@ -137,6 +137,11 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_FORMS = {"signup": "profiles.forms.CustomSignupForm"}
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # Default Django authentication
+    'allauth.account.auth_backends.AuthenticationBackend',  # Allauth authentication
+)
 
 # crispy-forms Settings (Bootstrap 5)
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
