@@ -49,13 +49,13 @@ For a full list of planned features refer to the [Project Planning](planning.md)
 ## 🐛 **Bugs and Fixes**
 
 ### **1️⃣ ERR_SSL_PROTOCOL_ERROR when Running the Server**
-- **Cause**: Attempted to access Django’s development server over HTTPS, but it only supports HTTP.
+- **Bug**: Attempted to access Django’s development server over HTTPS, but it only supports HTTP.
 - **Fix**: Used `http://127.0.0.1:8000/blog/` instead of `https://`.
 
 ---
 
 ### **2️⃣ Git Push Rejected Due to Upstream Issues**
-- **Cause**: The local Git branch was behind the remote repository.
+- **Bug**: The local Git branch was behind the remote repository.
 - **Fix**:
   - Pulled remote changes first using:
     ```bash
@@ -69,7 +69,7 @@ For a full list of planned features refer to the [Project Planning](planning.md)
 ---
 
 ### **3️⃣ Login Page Displaying "Register" Instead of "Login"**
-- **Cause**: Incorrectly named template file or incorrect context variable.
+- **Bug**: Incorrectly named template file or incorrect context variable.
 - **Fix**:
   - Updated `login.html` template to correctly display "Login" instead of "Register."
   - Ensured the title block was set properly:
@@ -80,7 +80,7 @@ For a full list of planned features refer to the [Project Planning](planning.md)
 ---
 
 ### **4️⃣ Unable to Login Using Email Instead of Username**
-- **Cause**: Django-allauth defaulted to username-based authentication.
+- **Bug**: Django-allauth defaulted to username-based authentication.
 - **Fix**:
   - Enabled email-based login in `settings.py`:
     ```python
@@ -92,7 +92,7 @@ For a full list of planned features refer to the [Project Planning](planning.md)
 ---
 
 ### **5️⃣ Register Page Only Showing Footer**
-- **Cause**: Missing `{% block content %}` in `register.html`, preventing the form from rendering.
+- **Bug**: Missing `{% block content %}` in `register.html`, preventing the form from rendering.
 - **Fix**:
   - Wrapped the content inside `{% block content %}` in `register.html`:
     ```html
@@ -111,7 +111,7 @@ For a full list of planned features refer to the [Project Planning](planning.md)
 ---
 
 ### **6️⃣ `TemplateDoesNotExist: base.html` Error**
-- **Cause**: Django couldn’t find `base.html` because it was placed in the wrong directory.
+- **Bug**: Django couldn’t find `base.html` because it was placed in the wrong directory.
 - **Fix**:
   - Moved `base.html` to the global `/templates/` directory.
   - Updated `settings.py` to reference the correct template path:
@@ -125,26 +125,8 @@ For a full list of planned features refer to the [Project Planning](planning.md)
 
 ---
 
-### **7️⃣ Database Migration Issues on Heroku**
-- **Cause**: Missing migrations or SQLite database incompatibility with Heroku.
-- **Fix**:
-  - Deleted and recreated migrations:
-    ```bash
-    rm -rf blog/migrations
-    python manage.py makemigrations blog
-    python manage.py migrate
-    ```
-  - Switched to PostgreSQL for production:
-    ```python
-    DATABASES = {
-        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-    }
-    ```
-
----
-
 ### **8️⃣ Virtual Environment (`env/`) Accidentally Tracked in Git**
-- **Cause**: The virtual environment was committed to Git, causing conflicts during deployment.
+- **Bug**: The virtual environment was committed to Git, causing conflicts during deployment.
 - **Fix**:
   - Added `env/` to `.gitignore`:
     ```bash
@@ -158,7 +140,7 @@ For a full list of planned features refer to the [Project Planning](planning.md)
 ---
 
 ### **9️⃣ Static Files Not Loading on Heroku**
-- **Cause**: Static files were not properly collected and served in production.
+- **Bug**: Static files were not properly collected and served in production.
 - **Fix**:
   - Configured `STATICFILES_DIRS` and `STATIC_ROOT` in `settings.py`:
     ```python
@@ -172,15 +154,16 @@ For a full list of planned features refer to the [Project Planning](planning.md)
 
 ---
 
-### **🔟 CSRF and ALLOWED_HOSTS Errors on Heroku**
-- **Cause**: Deployment to Heroku failed due to CSRF errors and incorrect `ALLOWED_HOSTS`.
-- **Fix**:
-  - Updated `settings.py`:
-    ```python
-    ALLOWED_HOSTS = ["your-app-name.herokuapp.com"]
-    CSRF_TRUSTED_ORIGINS = ["https://your-app-name.herokuapp.com"]
-    ```
+### **9️⃣ Static Files Not Loading on Heroku**
+- **Bug**: Users could register but were unable to log in, both locally and on the deployed version. The issue was caused by missing authentication backends in settings.py, which prevented Django-Allauth from properly verifying user credentials.
+
+- - **Fix**: Added the required authentication backends in settings.py:
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 ---
+
 
 ## Credits
