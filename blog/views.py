@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 # Home View
 def home(request):
     """Displays all posts on the homepage."""
-    posts = Post.objects.all().order_by('-created_at')  # ✅ FIXED: Changed 'created_on' to 'created_at'
+    posts = Post.objects.all().order_by('-created_at')
     return render(request, 'blog/home.html', {'posts': posts})
 
 # Post Detail View
@@ -25,13 +25,13 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Automatically log the user in
+            login(request, user)
             messages.success(request, "Registration successful!")
-            return redirect('home')  # ✅ FIXED: Redirect to homepage
+            return redirect('home') 
     else:
         form = UserCreationForm()
     
-    return render(request, 'blog/register.html', {'form': form})  # ✅ FIXED: Using correct template path
+    return render(request, 'blog/register.html', {'form': form})
 
 # Login View
 def user_login(request):
@@ -42,11 +42,11 @@ def user_login(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, "You are now logged in!")
-            return redirect('home')  # ✅ FIXED: Redirect to homepage
+            return redirect('home')
     else:
         form = AuthenticationForm()
     
-    return render(request, 'blog/login.html', {'form': form})  # ✅ FIXED: Using correct template path
+    return render(request, 'blog/login.html', {'form': form})
 
 # Logout View
 @login_required
@@ -64,7 +64,7 @@ def create_post(request):
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user  # Ensure post is linked to the logged-in user
+            post.author = request.user
             post.save()
             messages.success(request, "Your post has been created successfully!")
             return redirect('home')
