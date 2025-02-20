@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    <p><small>Published on {{ post.created_on }}</small></p>
+</div>
+{% endblock %}

@@ -6,16 +6,16 @@ from .models import Post
 from .forms import PostForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-# Home View
+# Home View (Show Only Published Posts)
 def home(request):
-    """Displays all posts on the homepage."""
-    posts = Post.objects.all().order_by('-created_at')
+    """Displays all published posts on the homepage."""
+    posts = Post.objects.filter(status=1).order_by('-created_at')
     return render(request, 'blog/home.html', {'posts': posts})
 
-# Post Detail View
-def post_detail(request, post_id):
+# Post Detail View (Now Uses Slugs)
+def post_detail(request, slug):
     """Displays a single post."""
-    post = get_object_or_404(Post, id=post_id)
+    post = get_object_or_404(Post, slug=slug, status=1)
     return render(request, 'blog/post_detail.html', {'post': post})
 
 # Register View
@@ -61,7 +61,7 @@ def user_logout(request):
 def create_post(request):
     """Allows users to create a new post."""
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
