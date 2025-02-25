@@ -63,14 +63,26 @@ footer {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-height: 100px; /* Limits bio height */
-    overflow-y: auto;  /* Enables scrolling if text is too long */
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+/* Bio Textarea */
+.bio-textarea {
+    width: 100%;
+    max-width: 100%;
+    height: 100px;
+    resize: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
 }
 
 /* User Posts Section */
 .user-posts-container {
     width: 100%;
-    max-height: 400px; /* Limits height for scrolling */
+    max-height: 400px;
     overflow-y: auto;
     background: white;
     padding: 15px;
