@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -12,7 +14,7 @@ def home(request):
     posts = Post.objects.filter(status=1).order_by('-created_at')
     return render(request, 'blog/home.html', {'posts': posts})
 
-# Post Detail View (Includes Comments)
+# Post Detail View (Includes Comments & Likes)
 def post_detail(request, slug):
     """Displays a single post and its comments."""
     post = get_object_or_404(Post, slug=slug, status=1)
@@ -87,23 +89,6 @@ def create_post(request):
     
     return render(request, 'blog/create_post.html', {'form': form})
 
-# Edit Comment View
-@login_required
-def edit_comment(request, comment_id):
-    """Allows users to edit their own comments."""
-    comment = get_object_or_404(Comment, id=comment_id, author=request.user)
-    
-    if request.method == "POST":
-        form = CommentForm(request.POST, instance=comment)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Your comment has been updated!")
-            return redirect('post_detail', slug=comment.post.slug)
-    else:
-        form = CommentForm(instance=comment)
-
-    return render(request, 'blog/edit_comment.html', {'form': form, 'comment': comment})
-
 # Delete Comment View
 @login_required
 def delete_comment(request, comment_id):
@@ -113,3 +98,35 @@ def delete_comment(request, comment_id):
     comment.delete()
     messages.success(request, "Your comment has been deleted.")
     return redirect('post_detail', slug=post_slug)
+
+# ✅ Like Post View 
+@login_required
+def like_post(request, post_id):
+    """Handles liking a post."""
+    post = get_object_or_404(Post, id=post_id)
+    liked = False
+
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+
+    return JsonResponse({"liked": liked, "total_likes": post.total_likes()})
+
+# ✅ Like Comment View 
+@login_required
+def like_comment(request, comment_id):
+    """Handles liking a comment."""
+    comment = get_object_or_404(Comment, id=comment_id)
+    liked = False
+
+    if comment.likes.filter(id=request.user.id).exists():
+        comment.likes.remove(request.user)
+        liked = False
+    else:
+        comment.likes.add(request.user)
+        liked = True
+
+    return JsonResponse({"liked": liked, "total_likes": comment.total_likes()})

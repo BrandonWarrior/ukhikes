@@ -8,8 +8,8 @@ class Profile(models.Model):
     display_name = models.CharField(max_length=100, blank=True)  
     bio = models.TextField(default="", blank=True)
     profile_picture = models.ImageField(
-        upload_to='profile_pics/',  # Remove "media/" from upload_to path
-        default='profile_pics/default-avatar.jpg'  # Correct default image path
+        upload_to='profile_pics/',
+        default='profile_pics/default-avatar.jpg'
     )
 
     def __str__(self):

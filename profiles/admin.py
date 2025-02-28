@@ -6,7 +6,7 @@ User = get_user_model()
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = (
-        (None, {"fields": ("email", "username", "password")}),  # Ensure username is included
+        (None, {"fields": ("email", "username", "password")}),
         ("Personal Info", {"fields": ("first_name", "last_name")}),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
@@ -14,13 +14,12 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
-            "fields": ("email", "username", "password1", "password2"),  # Include username
+            "fields": ("email", "username", "password1", "password2"),
         }),
     )
     list_display = ("email", "username", "is_staff", "date_joined")
     search_fields = ("email", "username")
     ordering = ("email",)
 
-# Unregister the old UserAdmin and register the custom one
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

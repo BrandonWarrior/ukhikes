@@ -1,40 +1,38 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
 <div class="container mt-5">
     <h1>{{ post.title }}</h1>
     <p>{{ post.content }}</p>
     <p><small>Published on {{ post.created_at }}</small></p>
 
+    <!-- ✅ Like Button for Post -->
+    <button class="btn {% if user in post.likes.all %}btn-success{% else %}btn-outline-primary{% endif %} like-post" 
+            data-post-id="{{ post.id }}">
+        ❤️ <span class="like-text">{{ post.total_likes }}</span>
+    </button>
+
     <hr>
 
-    <!-- Comments Section -->
+    <!-- ✅ Comments Section -->
     <h3>Comments:</h3>
     {% for comment in comments %}
         <div class="mb-3 p-3 border rounded">
             <p><strong>{{ comment.author }}</strong> - {{ comment.created_at }}</p>
             <p>{{ comment.content }}</p>
 
-            {% if user == comment.author %}
-                <a href="{% url 'edit_comment' comment.id %}" class="btn btn-sm btn-warning">Edit</a>
-                <a href="{% url 'delete_comment' comment.id %}" class="btn btn-sm btn-danger">Delete</a>
-            {% endif %}
+            <!-- ✅ Like Button for Comments -->
+            <button class="btn {% if user in comment.likes.all %}btn-success{% else %}btn-outline-primary{% endif %} like-comment" 
+                    data-comment-id="{{ comment.id }}">
+                ❤️ <span class="comment-like-text">{{ comment.total_likes }}</span>
+            </button>
         </div>
     {% empty %}
         <p>No comments yet. Be the first to comment!</p>
     {% endfor %}
-
-    <hr>
-
-    <!-- Comment Form -->
-    {% if user.is_authenticated %}
-        <h4>Add a Comment:</h4>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Post Comment</button>
-        </form>
-    {% else %}
-        <p><a href="{% url 'login' %}">Log in</a> to post a comment.</p>
-    {% endif %}
 </div>
+
+<!-- ✅ Load Like JavaScript -->
+<script src="{% static 'js/like.js' %}"></script>
 {% endblock %}

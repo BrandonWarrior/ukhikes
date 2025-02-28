@@ -1,0 +1,113 @@
+/* General Styles */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+}
+
+/* Profile Image Styling */
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    object-fit: cover;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hover effect for profile image */
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    font-size: 14px;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #343a40;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Profile Page Layout */
+.profile-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Profile Header - Centers Image & Info */
+.profile-header {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+/* Profile Bio Styling */
+.profile-bio {
+    max-width: 500px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+/* Bio Textarea */
+.bio-textarea {
+    width: 100%;
+    max-width: 100%;
+    height: 100px;
+    resize: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* User Posts Section */
+.user-posts-container {
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* User Post Items */
+.user-posts-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-posts-container li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-posts-container li:last-child {
+    border-bottom: none;
+}
+
+/* Make Sure Buttons Look Consistent */
+.btn-warning {
+    font-weight: bold;
+    border-radius: 5px;
+}
