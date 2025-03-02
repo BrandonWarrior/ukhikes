@@ -2,8 +2,7 @@ from django.urls import path
 from .views import (
     home, post_detail, create_post, 
     EditPostView, DeletePostView,  
-    edit_comment, delete_comment,  
-    like_post, like_comment
+    edit_comment, delete_comment
 )
 
 urlpatterns = [
@@ -14,6 +13,5 @@ urlpatterns = [
     path('post/<int:pk>/delete/', DeletePostView.as_view(), name='delete_post'),
     path('comment/<int:comment_id>/edit/', edit_comment, name='edit_comment'),
     path('comment/<int:comment_id>/delete/', delete_comment, name='delete_comment'),
-    path('post/<int:post_id>/like/', like_post, name='like_post'),
-    path('comment/<int:comment_id>/like/', like_comment, name='like_comment'),
 ]
+

@@ -13,7 +13,6 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     created_at = models.DateTimeField(default=timezone.now)
     status = models.IntegerField(choices=STATUS, default=0)
-    likes = models.ManyToManyField(User, related_name="liked_posts", blank=True)
 
     class Meta:
         ordering = ["-created_at"]
@@ -22,10 +21,6 @@ class Post(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
-
-    def total_likes(self):
-        """Returns the total number of likes for a post."""
-        return self.likes.count()
 
     def get_absolute_url(self):
         """Returns the URL for the post detail page."""
@@ -40,14 +35,9 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     approved = models.BooleanField(default=True)
-    likes = models.ManyToManyField(User, related_name="liked_comments", blank=True)
 
     class Meta:
         ordering = ["-created_at"]
-
-    def total_likes(self):
-        """Returns the total number of likes for a comment."""
-        return self.likes.count()
 
     def get_absolute_url(self):
         """Returns the URL for the post that the comment belongs to."""

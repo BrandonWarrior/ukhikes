@@ -15,34 +15,12 @@
 
     <hr>
 
-    <!-- Like Button for Post -->
-    {% if user.is_authenticated %}
-        <button class="btn {% if post_liked_by_user %}btn-success{% else %}btn-outline-primary{% endif %} like-post" 
-                data-post-id="{{ post.id }}">
-            ❤️ <span class="like-text">{{ post.total_likes }}</span>
-        </button>
-    {% else %}
-        <p><a href="{% url 'account_login' %}">Log in</a> to like this post.</p>
-    {% endif %}
-
-    <hr>
-
     <!-- Comments Section -->
     <h3>Comments:</h3>
     {% for comment in comments %}
         <div class="mb-3 p-3 border rounded">
             <p><strong>{{ comment.author }}</strong> - {{ comment.created_at }}</p>
             <p>{{ comment.content }}</p>
-
-            <!-- Like Button for Comments -->
-            {% if user.is_authenticated %}
-                <button class="btn {% if comment.id in comment_likes %}btn-success{% else %}btn-outline-primary{% endif %} like-comment" 
-                        data-comment-id="{{ comment.id }}">
-                    ❤️ <span class="comment-like-text">{{ comment.total_likes }}</span>
-                </button>
-            {% else %}
-                <p><a href="{% url 'account_login' %}">Log in</a> to like comments.</p>
-            {% endif %}
 
             <!-- Show Edit & Delete Buttons for Comment Author -->
             {% if user.is_authenticated and user == comment.author %}
@@ -68,7 +46,4 @@
         <p><a href="{% url 'account_login' %}">Log in</a> to post a comment.</p>
     {% endif %}
 </div>
-
-<!-- Load Like JavaScript -->
-<script src="{% static 'js/like.js' %}"></script>
 {% endblock %}
