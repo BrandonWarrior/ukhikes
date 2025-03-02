@@ -2,12 +2,89 @@
 body {
     background-color: #f8f9fa;
     font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Allow content to push footer to bottom */
+.wrapper {
+    flex: 1;
 }
 
 /* Navbar */
 .navbar {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px 20px;
+}
+
+/* Make All Buttons Green */
+.btn, .btn-primary, .btn-success {
+    background-color: #198754 !important;
+    border-color: #146c43 !important;
+    color: white !important;
+}
+
+/* Fix Logout Button (Previously Blue) */
+.logout-btn {
+    background-color: #198754 !important;
+    border-color: #146c43 !important;
+    color: white !important;
+}
+
+/* Prevent Hover Effect for Logout */
+.logout-btn:hover,
+.logout-btn:focus,
+.logout-btn:active {
+    background-color: #146c43 !important;
+    border-color: #0f5132 !important;
+    color: white !important;
+    box-shadow: none !important;
+    filter: none !important;
+    text-decoration: none !important;
+}
+
+/* Fixed Footer */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    flex: 1;
+}
+
+/* Updated Footer to stay at the bottom */
+.footer {
+    font-size: 14px;
+    text-align: center;
+    padding: 15px 0;
+    background-color: #343a40;
+    color: white;
+    margin-top: auto;
+    width: 100%;
+    position: relative;
+}
+
+/* Style for Social Media Icons */
+.social-links {
+    margin-top: 10px;
+}
+
+.social-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 24px; /* Adjust icon size */
+    transition: color 0.3s ease-in-out;
+    display: inline-block;
+}
+
+/* Hover Effect for Social Media Icons */
+.social-links a:hover {
+    color: #ffcc00; /* Highlight color on hover */
 }
 
 /* Profile Image Styling */
@@ -26,18 +103,6 @@ body {
 /* Hover effect for profile image */
 .profile-image:hover {
     transform: scale(1.05);
-}
-
-/* Footer */
-footer {
-    font-size: 14px;
-    text-align: center;
-    padding: 10px 0;
-    background-color: #343a40;
-    color: white;
-    position: relative;
-    bottom: 0;
-    width: 100%;
 }
 
 /* Profile Page Layout */
@@ -106,8 +171,20 @@ footer {
     border-bottom: none;
 }
 
-/* Make Sure Buttons Look Consistent */
+/* Ensure Consistent Button Styling */
 .btn-warning {
     font-weight: bold;
     border-radius: 5px;
 }
+
+/* Additional Green Button Styling */
+.btn-success:hover, 
+.btn-primary:hover, 
+.btn:hover {
+    background-color: #146c43 !important;
+    border-color: #0f5132 !important;
+}
+
+/* Make Sure All Buttons Have Proper Padding */
+.btn {
+    padding: 10

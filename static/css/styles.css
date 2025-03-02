@@ -18,19 +18,26 @@ body {
     padding: 10px 20px;
 }
 
-/* Fix Logout Button Hover - Ensure No Color Change */
-.logout-btn {
-    background-color: #0d6efd !important;
-    border-color: #0d6efd !important;
+/* Make All Buttons Green */
+.btn, .btn-primary, .btn-success {
+    background-color: #198754 !important;
+    border-color: #146c43 !important;
     color: white !important;
 }
 
-/* Prevent Hover Effect */
+/* Fix Logout Button (Previously Blue) */
+.logout-btn {
+    background-color: #198754 !important;
+    border-color: #146c43 !important;
+    color: white !important;
+}
+
+/* Prevent Hover Effect for Logout */
 .logout-btn:hover,
 .logout-btn:focus,
 .logout-btn:active {
-    background-color: #0d6efd !important;
-    border-color: #0d6efd !important;
+    background-color: #146c43 !important;
+    border-color: #0f5132 !important;
     color: white !important;
     box-shadow: none !important;
     filter: none !important;
@@ -164,8 +171,20 @@ html, body {
     border-bottom: none;
 }
 
-/* Make Sure Buttons Look Consistent */
+/* Ensure Consistent Button Styling */
 .btn-warning {
     font-weight: bold;
     border-radius: 5px;
 }
+
+/* Additional Green Button Styling */
+.btn-success:hover, 
+.btn-primary:hover, 
+.btn:hover {
+    background-color: #146c43 !important;
+    border-color: #0f5132 !important;
+}
+
+/* Make Sure All Buttons Have Proper Padding */
+.btn {
+    padding: 10
