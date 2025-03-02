@@ -77,14 +77,14 @@ html, body {
     color: white;
     text-decoration: none;
     margin: 0 10px;
-    font-size: 24px; /* Adjust icon size */
+    font-size: 24px;
     transition: color 0.3s ease-in-out;
     display: inline-block;
 }
 
 /* Hover Effect for Social Media Icons */
 .social-links a:hover {
-    color: #ffcc00; /* Highlight color on hover */
+    color: #ffcc00;
 }
 
 /* Profile Image Styling */
@@ -188,3 +188,4 @@ html, body {
 /* Make Sure All Buttons Have Proper Padding */
 .btn {
     padding: 10
+}
