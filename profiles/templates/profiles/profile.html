@@ -2,30 +2,18 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <!-- Profile Image Section -->
         <div class="col-4 text-center">
-            {% load static %}  <!-- Ensure static is loaded -->
-{% if user.profile.profile_picture %}
-    <img src="{{ user.profile.profile_picture.url }}" 
-         class="profile-image img-fluid rounded-circle border"
-         style="width: 150px; height: 150px; object-fit: cover;"
-         alt="Profile Picture">
-{% else %}
-    <img src="{{ MEDIA_URL }}profile_pics/default.jpg"  <!-- Use MEDIA_URL -->
-         class="profile-image img-fluid rounded-circle border"
-         style="width: 150px; height: 150px; object-fit: cover;"
-         alt="Default Profile Picture">
-{% endif %}
-
+            {% load static %}
+            <img src="{{ user.profile.profile_picture.url }}" 
+                 class="profile-image img-fluid rounded-circle border"
+                 alt="Profile Picture">
         </div>
 
-        <!-- User Details Section -->
         <div class="col-8">
             <h2 class="text-primary">{{ user.username }}</h2>
             <p class="text-muted">Member since: {{ user.date_joined|date:"F Y" }}</p>
             <a href="{% url 'edit_profile' %}" class="btn btn-warning">Edit Profile</a>
 
-            <!-- Bio Section -->
             <hr>
             <h5>Bio</h5>
             <p>{{ user.profile.bio|default:"No bio yet. Add something about yourself!" }}</p>

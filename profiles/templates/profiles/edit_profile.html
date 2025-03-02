@@ -8,37 +8,27 @@
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
 
-                    <!-- Profile Picture Preview -->
                     <div class="mb-3 text-center">
                         <label for="profile_picture" class="form-label">Current Profile Picture</label>
                         <div>
-                            {% if user.profile.profile_picture %}
-                                <img src="{{ user.profile.profile_picture.url }}" 
-                                     class="profile-image img-fluid rounded-circle border"
-                                     style="width: 150px; height: 150px; object-fit: cover;"
-                                     alt="Profile Picture">
-                            {% else %}
-                                <img src="{{ MEDIA_URL }}profile_pics/default.jpg" 
-                                     class="profile-image img-fluid rounded-circle border"
-                                     style="width: 150px; height: 150px; object-fit: cover;"
-                                     alt="Default Profile Picture">
-                            {% endif %}
+                            <img src="{{ user.profile.profile_picture.url }}" 
+                                 class="profile-image img-fluid rounded-circle border"
+                                 alt="Profile Picture">
                         </div>
                     </div>
 
-                    <!-- Profile Picture Upload Field -->
                     <div class="mb-3">
                         <label for="profile_picture" class="form-label">Upload New Profile Picture</label>
                         <input type="file" name="profile_picture" class="form-control">
                     </div>
 
-                    <!-- Bio Field -->
                     <div class="mb-3">
                         <label for="bio" class="form-label">Bio</label>
                         <textarea name="bio" id="bio" class="form-control bio-textarea">{{ form.bio.value|default:"" }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-success w-100 mt-3">Update Profile</button>
+                    <a href="{% url 'profile' %}" class="btn btn-secondary w-100 mt-2">⬅ Back to Profile</a>
                 </form>
             </div>
         </div>

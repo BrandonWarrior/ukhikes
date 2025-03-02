@@ -1,14 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-# Home View (Show Only Published Posts)
+# Home View (Shows Only Published Posts)
 def home(request):
     """Displays all published posts on the homepage."""
     posts = Post.objects.filter(status=1).order_by('-created_at')
@@ -34,44 +34,6 @@ def post_detail(request, slug):
 
     return render(request, 'blog/post_detail.html', {'post': post, 'comments': comments, 'form': form})
 
-# Register View
-def register(request):
-    """Handles user registration."""
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Registration successful!")
-            return redirect('home') 
-    else:
-        form = UserCreationForm()
-    
-    return render(request, 'blog/register.html', {'form': form})
-
-# Login View
-def user_login(request):
-    """Handles user login."""
-    if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            messages.success(request, "You are now logged in!")
-            return redirect('home')
-    else:
-        form = AuthenticationForm()
-    
-    return render(request, 'blog/login.html', {'form': form})
-
-# Logout View
-@login_required
-def user_logout(request):
-    """Logs the user out."""
-    logout(request)
-    messages.info(request, "You have logged out successfully!")
-    return redirect('home')
-
 # Create Post View
 @login_required
 def create_post(request):
@@ -89,17 +51,77 @@ def create_post(request):
     
     return render(request, 'blog/create_post.html', {'form': form})
 
-# Delete Comment View
+# Edit Post View (Uses Unified Edit Form)
+class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content', 'status']
+    template_name = 'blog/edit_form.html'
+
+    def test_func(self):
+        """Ensure only the post author can edit."""
+        post = self.get_object()
+        return self.request.user == post.author
+
+    def get_context_data(self, **kwargs):
+        """Passes dynamic context to template"""
+        context = super().get_context_data(**kwargs)
+        context['object_type'] = "Post"
+        context['cancel_url'] = self.object.get_absolute_url()
+        return context
+
+# Delete Post View (Only the Author Can Delete)
+class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'blog/delete_post.html'
+    success_url = reverse_lazy('home')
+
+    def test_func(self):
+        """Ensure only the post author can delete."""
+        post = self.get_object()
+        return self.request.user == post.author
+
+# Edit Comment View (Uses Edit Form)
+@login_required
+def edit_comment(request, comment_id):
+    """Allows users to edit their own comments."""
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    if request.user != comment.author:
+        messages.error(request, "You cannot edit someone else's comment.")
+        return redirect('home')
+
+    if request.method == "POST":
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your comment has been updated!")
+            return redirect('post_detail', slug=comment.post.slug)
+    else:
+        form = CommentForm(instance=comment)
+
+    return render(request, 'blog/edit_form.html', {
+        'form': form,
+        'object_type': "Comment",
+        'cancel_url': comment.post.get_absolute_url(),
+    })
+
+# Delete Comment View (Only the Author Can Delete)
 @login_required
 def delete_comment(request, comment_id):
     """Allows users to delete their own comments."""
-    comment = get_object_or_404(Comment, id=comment_id, author=request.user)
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    # Ensure only the comment's author can delete it
+    if request.user != comment.author:
+        messages.error(request, "You cannot delete someone else's comment.")
+        return redirect('home')
+
     post_slug = comment.post.slug
     comment.delete()
     messages.success(request, "Your comment has been deleted.")
     return redirect('post_detail', slug=post_slug)
 
-# ✅ Like Post View 
+# Like Post View
 @login_required
 def like_post(request, post_id):
     """Handles liking a post."""
@@ -115,7 +137,7 @@ def like_post(request, post_id):
 
     return JsonResponse({"liked": liked, "total_likes": post.total_likes()})
 
-# ✅ Like Comment View 
+# Like Comment View
 @login_required
 def like_comment(request, comment_id):
     """Handles liking a comment."""

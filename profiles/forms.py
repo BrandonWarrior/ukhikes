@@ -1,13 +1,13 @@
 from allauth.account.forms import SignupForm
 from django import forms
-from django.contrib.auth.models import User
 from .models import Profile
 
 class ProfileUpdateForm(forms.ModelForm):
-    """Form to allow users to update their profile."""
+    """Form to allow users to update their profile with additional fields."""
+    
     class Meta:
         model = Profile
-        fields = ['bio', 'profile_picture']
+        fields = ['bio', 'profile_picture', 'location', 'experience_level', 'favorite_hikes', 'instagram_handle']
 
 class CustomSignupForm(SignupForm):
     """Custom signup form to include first & last name during registration."""
@@ -21,6 +21,6 @@ class CustomSignupForm(SignupForm):
         user.save()
 
         # Ensure only one Profile is created per user
-        profile, created = Profile.objects.get_or_create(user=user)
+        Profile.objects.get_or_create(user=user)
 
         return user
