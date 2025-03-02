@@ -8,7 +8,7 @@
     <p><small>Published on {{ post.created_at }}</small></p>
 
     <!-- Show Edit & Delete Buttons for Post Author -->
-    {% if user == post.author %}
+    {% if user.is_authenticated and user == post.author %}
         <a href="{% url 'edit_post' post.id %}" class="btn btn-warning">✏️ Edit</a>
         <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">🗑 Delete</a>
     {% endif %}
@@ -16,10 +16,14 @@
     <hr>
 
     <!-- Like Button for Post -->
-    <button class="btn {% if user in post.likes.all %}btn-success{% else %}btn-outline-primary{% endif %} like-post" 
-            data-post-id="{{ post.id }}">
-        ❤️ <span class="like-text">{{ post.total_likes }}</span>
-    </button>
+    {% if user.is_authenticated %}
+        <button class="btn {% if post_liked_by_user %}btn-success{% else %}btn-outline-primary{% endif %} like-post" 
+                data-post-id="{{ post.id }}">
+            ❤️ <span class="like-text">{{ post.total_likes }}</span>
+        </button>
+    {% else %}
+        <p><a href="{% url 'account_login' %}">Log in</a> to like this post.</p>
+    {% endif %}
 
     <hr>
 
@@ -31,13 +35,17 @@
             <p>{{ comment.content }}</p>
 
             <!-- Like Button for Comments -->
-            <button class="btn {% if user in comment.likes.all %}btn-success{% else %}btn-outline-primary{% endif %} like-comment" 
-                    data-comment-id="{{ comment.id }}">
-                ❤️ <span class="comment-like-text">{{ comment.total_likes }}</span>
-            </button>
+            {% if user.is_authenticated %}
+                <button class="btn {% if comment.id in comment_likes %}btn-success{% else %}btn-outline-primary{% endif %} like-comment" 
+                        data-comment-id="{{ comment.id }}">
+                    ❤️ <span class="comment-like-text">{{ comment.total_likes }}</span>
+                </button>
+            {% else %}
+                <p><a href="{% url 'account_login' %}">Log in</a> to like comments.</p>
+            {% endif %}
 
             <!-- Show Edit & Delete Buttons for Comment Author -->
-            {% if user == comment.author %}
+            {% if user.is_authenticated and user == comment.author %}
                 <a href="{% url 'edit_comment' comment.id %}" class="btn btn-warning btn-sm">✏️ Edit</a>
                 <a href="{% url 'delete_comment' comment.id %}" class="btn btn-danger btn-sm">🗑 Delete</a>
             {% endif %}
@@ -48,7 +56,7 @@
 
     <hr>
 
-    <!-- ✍️ Comment Form -->
+    <!-- Comment Form -->
     {% if user.is_authenticated %}
         <h4>Add a Comment:</h4>
         <form method="POST">
@@ -57,7 +65,7 @@
             <button type="submit" class="btn btn-primary">Post Comment</button>
         </form>
     {% else %}
-        <p><a href="{% url 'login' %}">Log in</a> to post a comment.</p>
+        <p><a href="{% url 'account_login' %}">Log in</a> to post a comment.</p>
     {% endif %}
 </div>
 

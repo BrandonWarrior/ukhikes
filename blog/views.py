@@ -14,11 +14,22 @@ def home(request):
     posts = Post.objects.filter(status=1).order_by('-created_at')
     return render(request, 'blog/home.html', {'posts': posts})
 
-# Post Detail View (Includes Comments & Likes)
+# Fixed Post Detail View (Includes Comments & Likes)
 def post_detail(request, slug):
     """Displays a single post and its comments."""
     post = get_object_or_404(Post, slug=slug, status=1)
     comments = post.comments.filter(approved=True).order_by("-created_at")
+
+    # Precompute if the user has liked the post
+    post_liked_by_user = False
+    if request.user.is_authenticated:
+        post_liked_by_user = post.likes.filter(id=request.user.id).exists()
+
+    # Precompute if the user has liked each comment
+    comment_likes = {}
+    if request.user.is_authenticated:
+        for comment in comments:
+            comment_likes[comment.id] = comment.likes.filter(id=request.user.id).exists()
 
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -32,7 +43,13 @@ def post_detail(request, slug):
     else:
         form = CommentForm()
 
-    return render(request, 'blog/post_detail.html', {'post': post, 'comments': comments, 'form': form})
+    return render(request, 'blog/post_detail.html', {
+        'post': post,
+        'comments': comments,
+        'form': form,
+        'post_liked_by_user': post_liked_by_user,
+        'comment_likes': comment_likes,
+    })
 
 # Create Post View
 @login_required
