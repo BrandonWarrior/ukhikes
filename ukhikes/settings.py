@@ -10,7 +10,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security Settings
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-wwfshzz==l8_+s(99staqopy=trqws2adfz^#1nz(v@-sizhfh')
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-secret-key')
 DEBUG = False
 
 SITE_ID = 1
