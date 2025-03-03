@@ -11,6 +11,7 @@ urlpatterns = [
     path("profile/", include("profiles.urls")),
     path("blog/", include("blog.urls")),
     path("", home, name="home"),
+    path('testimonials/', include('testimonials.urls')),
 ]
 
 # Allow Django to serve media files during development

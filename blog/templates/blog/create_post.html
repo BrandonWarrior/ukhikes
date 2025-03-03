@@ -2,10 +2,19 @@
 {% block content %}
 <div class="container mt-5">
     <h2>Create a New Post</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    <div class="post-form">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Post Title</label>
+                <input type="text" name="title" class="form-control" value="{{ form.title.value|default:'' }}" />
+            </div>
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea name="content" class="form-control">{{ form.content.value|default:'' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

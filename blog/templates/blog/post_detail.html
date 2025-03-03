@@ -40,7 +40,7 @@
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Post Comment</button>
+            <button type="submit" class="btn btn-primary comment-button">Post Comment</button>
         </form>
     {% else %}
         <p><a href="{% url 'account_login' %}">Log in</a> to post a comment.</p>

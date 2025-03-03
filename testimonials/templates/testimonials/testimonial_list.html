@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Testimonials</h2>
+
+    {% if user.is_authenticated %}
+        <!-- Button to create a testimonial with better styling -->
+        <a href="{% url 'create_testimonial' %}" class="btn btn-success btn-lg mb-4" style="font-size: 1.1rem; padding: 12px 30px; width: 100%; max-width: 250px; margin: 0 auto; display: block;">
+            Submit a Testimonial
+        </a>
+    {% endif %}
+
+    {% if testimonials %}
+        <div class="row">
+            {% for testimonial in testimonials %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <!-- Display the content of the testimonial -->
+                            <h5 class="card-title">{{ testimonial.content|truncatewords:20 }}</h5>
+
+                            <!-- Display the rating of the testimonial -->
+                            <p class="card-text">
+                                <strong>Rating:</strong> {{ testimonial.rating }}/5
+                            </p>
+
+                            <p class="text-muted">By {{ testimonial.author }} • {{ testimonial.created_at|date:"F d, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No testimonials available at the moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -185,7 +185,115 @@ html, body {
     border-color: #0f5132 !important;
 }
 
-/* Make Sure All Buttons Have Proper Padding */
+/* Buttons Have Proper Padding */
 .btn {
     padding: 10
+}
+
+/* Comment Button Spacing */
+.comment-button {
+    margin-bottom: 40px; /* Adds space between the comment button and footer */
+}
+
+/* Testimonial Form Styles */
+.testimonial-form {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Add some space between the form and the content above */
+}
+
+.testimonial-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.testimonial-form .form-group {
+    margin-bottom: 20px; /* Increase bottom margin for spacing */
+}
+
+.testimonial-form .form-control {
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 14px;
+}
+
+.testimonial-form textarea {
+    resize: vertical;
+    min-height: 150px;
+    padding: 10px;
+}
+
+/* Submit Testimonial Button */
+.testimonial-btn {
+    display: inline-block;
+    width: auto;
+    padding: 12px 30px; /* Add padding for a bigger, clickable button */
+    background-color: #198754;
+    border-color: #146c43;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+}
+
+.testimonial-btn:hover {
+    background-color: #146c43;
+    border-color: #0f5132;
+    transform: scale(1.05); /* Slightly scale up the button on hover */
+}
+
+/* Success Message After Submission */
+.testimonial-success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.testimonial-error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Testimonial List Styles */
+.testimonial-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.testimonial-card h4 {
+    font-size: 20px;
+    color: #198754;
+}
+
+.testimonial-card p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6; /* Improved readability */
+}
+
+/* Testimonial List Container */
+.testimonial-list {
+    margin-top: 40px;
+}
+
+/* Testimonial Button Placement */
+.testimonial-btn-container {
+    text-align: center;
+    margin-top: 40px; /* Add more spacing before the button */
 }

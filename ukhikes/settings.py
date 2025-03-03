@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # Local Apps
     'blog',
     'profiles',
+    'testimonials',
 ]
 
 # Middleware
