@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Confirm Account Deletion</h2>
+    
+    <p class="text-center mb-4" style="font-size: 1.2rem;">
+        Are you sure you want to delete your account? This action cannot be undone.
+    </p>
+
+    <!-- Deletion Warning -->
+    <div class="alert alert-danger text-center" style="font-size: 1.2rem;">
+        <strong>Warning:</strong> Deleting your account will permanently remove your profile, posts, and comments. This action cannot be undone.
+    </div>
+
+    <!-- Form to confirm deletion -->
+    <form method="POST" class="text-center">
+        {% csrf_token %}
+        
+        <!-- Delete Account Button -->
+        <button type="submit" class="btn btn-danger btn-lg mt-3">Delete My Account</button>
+        
+        <!-- Cancel Button -->
+        <a href="{% url 'profile' %}" class="btn btn-secondary btn-lg mt-3 ml-3" type="button">Cancel</a>
+    </form>
+</div>
+{% endblock %}

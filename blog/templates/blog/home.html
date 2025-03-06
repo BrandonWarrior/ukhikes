@@ -2,6 +2,13 @@
 
 {% block content %}
 <div class="container mt-5">
+    <!-- Display success messages -->
+    {% for message in messages %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <div class="text-center">
         <h1 class="fw-bold">Welcome to UK Hikes 🏔</h1>
         <p class="lead text-muted">Explore, share, and connect with fellow hikers across the UK.</p>
@@ -9,7 +16,7 @@
         {% if user.is_authenticated %}
             <a href="{% url 'create_post' %}" class="btn btn-primary btn-lg mt-3">Share Your Hike</a>
             <!-- Link to create testimonial -->
-            <a href="{% url 'create_testimonial' %}" class="btn btn-outline-secondary btn-lg mt-3">Submit a Testimonial</a> <!-- Button for submitting testimonials -->
+            <a href="{% url 'create_testimonial' %}" class="btn btn-outline-secondary btn-lg mt-3">Submit a Testimonial</a>
             <!-- Link to the testimonials page -->
             <a href="{% url 'testimonial_list' %}" class="btn btn-outline-primary btn-lg mt-3">View Testimonials</a>
         {% else %}

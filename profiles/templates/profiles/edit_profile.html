@@ -1,37 +1,101 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="text-center">Edit Profile</h2>
-            <div class="card p-4 shadow-lg">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
+    <h2 class="text-center mb-4">Edit Your Profile</h2>
 
-                    <div class="mb-3 text-center">
-                        <label for="profile_picture" class="form-label">Current Profile Picture</label>
-                        <div>
-                            <img src="{{ user.profile.profile_picture.url }}" 
-                                 class="profile-image img-fluid rounded-circle border"
-                                 alt="Profile Picture">
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img src="{{ user.profile.profile_picture.url }}" 
+                 class="profile-image img-fluid rounded-circle border mb-3"
+                 alt="Profile Picture">
+        </div>
 
-                    <div class="mb-3">
-                        <label for="profile_picture" class="form-label">Upload New Profile Picture</label>
-                        <input type="file" name="profile_picture" class="form-control">
-                    </div>
+        <div class="col-md-8">
+            <h2 class="text-primary">{{ user.username }}</h2>
+            <p class="text-muted">Member since: {{ user.date_joined|date:"F Y" }}</p>
 
-                    <div class="mb-3">
-                        <label for="bio" class="form-label">Bio</label>
-                        <textarea name="bio" id="bio" class="form-control bio-textarea">{{ form.bio.value|default:"" }}</textarea>
-                    </div>
+            <!-- Edit Profile Form -->
+            <form method="POST" enctype="multipart/form-data" class="mt-4">
+                {% csrf_token %}
 
-                    <button type="submit" class="btn btn-success w-100 mt-3">Update Profile</button>
-                    <a href="{% url 'profile' %}" class="btn btn-secondary w-100 mt-2">⬅ Back to Profile</a>
-                </form>
+                <!-- Username Field -->
+                <div class="form-group">
+                    <label for="id_username">Username</label>
+                    <input type="text" name="username" class="form-control" value="{{ form.username.value }}">
+                </div>
+
+                <!-- Profile Picture Field -->
+                <div class="form-group">
+                    <label for="id_profile_picture">Profile Picture</label>
+                    <input type="file" name="profile_picture" class="form-control" />
+                </div>
+
+                <!-- Bio Field -->
+                <div class="form-group">
+                    <label for="id_bio">Bio</label>
+                    <textarea name="bio" class="form-control">{{ form.bio.value|default:'' }}</textarea>
+                </div>
+
+                <!-- Location Field -->
+                <div class="form-group">
+                    <label for="id_location">Where Are You From?</label>
+                    <input type="text" name="location" class="form-control" value="{{ form.location.value|default:'' }}">
+                </div>
+
+                <!-- Experience Level Field -->
+                <div class="form-group">
+                    <label for="id_experience_level">Experience Level</label>
+                    <select name="experience_level" class="form-control">
+                        <option value="" {% if not form.experience_level.value %}selected{% endif %}>-- Select Experience Level --</option>
+                        <option value="Beginner" {% if form.experience_level.value == 'Beginner' %}selected{% endif %}>Beginner</option>
+                        <option value="Intermediate" {% if form.experience_level.value == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+                        <option value="Advanced" {% if form.experience_level.value == 'Advanced' %}selected{% endif %}>Advanced</option>
+                    </select>
+                </div>
+
+                <!-- Instagram Handle Field -->
+                <div class="form-group">
+                    <label for="id_instagram_handle">Instagram Handle (Optional)</label>
+                    <input type="text" name="instagram_handle" class="form-control" value="{{ form.instagram_handle.value|default:'' }}">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+            </form>
+
+            <!-- Delete Account Button -->
+            <form method="POST" action="{% url 'delete_account' %}" id="delete-account-form" class="mt-4 mb-5">
+                {% csrf_token %}
+                <button type="button" id="delete-account-btn" class="btn btn-danger w-100">Delete My Account</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Confirmation Modal -->
+<div id="confirmation-modal" class="modal" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Account Deletion</h5>
+                <button type="button" class="close" id="close-modal-btn">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <p><strong>Warning:</strong> Deleting your account will permanently remove your profile, posts, and comments. This action cannot be undone.</p>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" id="confirm-delete-btn" class="btn btn-danger">Yes, Delete My Account</button>
+                <button type="button" id="cancel-delete-btn" class="btn btn-secondary">No, Go Back</button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Link to JS file -->
+<script src="{% static 'js/edit_profile.js' %}"></script>
+
 {% endblock %}

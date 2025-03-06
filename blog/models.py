@@ -13,6 +13,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     created_at = models.DateTimeField(default=timezone.now)
     status = models.IntegerField(choices=STATUS, default=0)
+    image = models.ImageField(upload_to='post_images/', null=True, blank=True)  # Add this line for image upload
 
     class Meta:
         ordering = ["-created_at"]

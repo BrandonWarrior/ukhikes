@@ -28,7 +28,6 @@ def post_detail(request, slug):
             comment.post = post
             comment.author = request.user
             comment.save()
-            messages.success(request, "Your comment has been submitted and is awaiting approval!")
             return redirect('post_detail', slug=post.slug)
     else:
         form = CommentForm()
@@ -39,7 +38,7 @@ def post_detail(request, slug):
         'form': form,
     })
 
-# Create Post View
+# Create Post View (Automatically Published)
 @login_required
 def create_post(request):
     """Allows users to create a new post."""
@@ -48,8 +47,11 @@ def create_post(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            post.status = 1
             post.save()
             messages.success(request, "Your post has been created successfully!")
+            return redirect('home')
+        else:
             return redirect('home')
     else:
         form = PostForm()
@@ -77,7 +79,6 @@ class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 # Delete Post View (Only the Author Can Delete)
 class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    template_name = 'blog/delete_post.html'
     success_url = reverse_lazy('home')
 
     def test_func(self):
@@ -85,12 +86,24 @@ class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         post = self.get_object()
         return self.request.user == post.author
 
-# Edit Comment View (Uses Edit Form)
+    def get(self, request, *args, **kwargs):
+        """Override to prevent rendering of the confirmation page."""
+        return self.post(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Override to handle post request directly without a confirmation page."""
+        post = self.get_object()
+        post.delete()
+        messages.success(request, "Your post has been deleted.")
+        return redirect(self.success_url)
+
+# Edit Comment View (Allows users to edit their own comments)
 @login_required
 def edit_comment(request, comment_id):
     """Allows users to edit their own comments."""
     comment = get_object_or_404(Comment, id=comment_id)
 
+    # Ensure the user is the author of the comment
     if request.user != comment.author:
         messages.error(request, "You cannot edit someone else's comment.")
         return redirect('home')
@@ -110,13 +123,13 @@ def edit_comment(request, comment_id):
         'cancel_url': comment.post.get_absolute_url(),
     })
 
-# Delete Comment View (Only the Author Can Delete)
+# Delete Comment View (Allows users to delete their own comments)
 @login_required
 def delete_comment(request, comment_id):
     """Allows users to delete their own comments."""
     comment = get_object_or_404(Comment, id=comment_id)
 
-    # Ensure only the comment's author can delete it
+    # Ensure the user is the author of the comment
     if request.user != comment.author:
         messages.error(request, "You cannot delete someone else's comment.")
         return redirect('home')

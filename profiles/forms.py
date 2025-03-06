@@ -1,26 +1,29 @@
-from allauth.account.forms import SignupForm
 from django import forms
+from django.contrib.auth.models import User
 from .models import Profile
 
 class ProfileUpdateForm(forms.ModelForm):
-    """Form to allow users to update their profile with additional fields."""
+    """Form to allow users to update their profile with additional fields, including username."""
     
+    username = forms.CharField(max_length=150, required=True, label="Username")
+
     class Meta:
         model = Profile
-        fields = ['bio', 'profile_picture', 'location', 'experience_level', 'favorite_hikes', 'instagram_handle']
+        fields = ['username', 'bio', 'profile_picture', 'location', 'experience_level', 'favorite_hikes', 'instagram_handle']
 
-class CustomSignupForm(SignupForm):
-    """Custom signup form to include first & last name during registration."""
-    first_name = forms.CharField(max_length=30, required=True, label="First Name")
-    last_name = forms.CharField(max_length=30, required=True, label="Last Name")
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+        # Pre-fill the username field with the current user's username
+        self.fields['username'].initial = self.instance.user.username
 
-    def save(self, request):
-        user = super().save(request)
-        user.first_name = self.cleaned_data["first_name"]
-        user.last_name = self.cleaned_data["last_name"]
-        user.save()
+    def save(self, commit=True):
+        # Save the Profile data
+        profile = super().save(commit=commit)
 
-        # Ensure only one Profile is created per user
-        Profile.objects.get_or_create(user=user)
+        # Update the username if it has been changed
+        new_username = self.cleaned_data['username']
+        if new_username != self.instance.user.username:
+            self.instance.user.username = new_username
+            self.instance.user.save()
 
-        return user
+        return profile
