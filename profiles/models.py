@@ -10,7 +10,7 @@ EXPERIENCE_CHOICES = [
 ]
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Link to User model
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     display_name = models.CharField(max_length=100, blank=True)  
     bio = models.TextField(default="", blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.jpg', blank=True)
@@ -20,14 +20,14 @@ class Profile(models.Model):
     instagram_handle = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
-        return self.user.username  # Return the username of the user for easy identification
+        return self.user.username
 
 # Automatically create a profile when a new user is registered
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)  # Create a Profile when a new User is created
+        Profile.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()  # Save the profile when the User is saved
+    instance.profile.save()

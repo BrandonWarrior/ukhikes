@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security Settings
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-secret-key')
-DEBUG = False
+DEBUG = True
 
 SITE_ID = 1
 
@@ -33,6 +33,11 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.herokuapp.com",
 
 ]
+
+# CSRF Secure settings for Heroku (only for production)
+if not DEBUG:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 
 # Installed Applications
 INSTALLED_APPS = [
