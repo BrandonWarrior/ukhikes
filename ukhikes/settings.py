@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security Settings
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-secret-key')
-DEBUG = False
+DEBUG = True
 
 SITE_ID = 1
 
@@ -31,7 +31,6 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
     "https://ukhikes-blog.herokuapp.com",
     "https://*.herokuapp.com",
-
 ]
 
 # CSRF Secure settings for Heroku (only for production)
@@ -56,6 +55,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap5',
+    'cloudinary',
+    'cloudinary_storage',
 
     # Local Apps
     'blog',
@@ -139,9 +140,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Enable WhiteNoise for Heroku Static Files Handling
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Cloudinary Configuration for Media Files (Profile Pictures & User Uploads)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),  # Your Cloudinary Cloud Name
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),        # Your Cloudinary API Key
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),  # Your Cloudinary API Secret
+}
 
-# Media Files (Profile Pictures & User Uploads)
-MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Media URL for Cloudinary
+MEDIA_URL = 'https://res.cloudinary.com/{}/'.format(os.getenv('CLOUDINARY_CLOUD_NAME'))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
@@ -149,7 +158,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django-allauth Settings
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_AUTHENTICATION_METHOD = "email" 
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_FORMS = {"signup": "profiles.forms.CustomSignupForm"}
