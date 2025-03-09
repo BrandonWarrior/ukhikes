@@ -1,7 +1,3 @@
-"""
-Django settings for ukhikes project.
-"""
-
 from pathlib import Path
 import os
 import dj_database_url
@@ -40,7 +36,6 @@ if not DEBUG:
 
 # Installed Applications
 INSTALLED_APPS = [
-    # Default Django Apps
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,17 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Third-Party Apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap5',
-    'cloudinary',
-    'cloudinary_storage',
-
-    # Local Apps
     'blog',
     'profiles',
     'testimonials',
@@ -140,17 +129,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Enable WhiteNoise for Heroku Static Files Handling
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Cloudinary Configuration for Media Files (Profile Pictures & User Uploads)
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),  # Your Cloudinary Cloud Name
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),        # Your Cloudinary API Key
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),  # Your Cloudinary API Secret
-}
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-# Media URL for Cloudinary
-MEDIA_URL = 'https://res.cloudinary.com/{}/'.format(os.getenv('CLOUDINARY_CLOUD_NAME'))
+# Media Files (Profile Pictures & User Uploads)
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
