@@ -25,14 +25,14 @@ body {
     color: white !important;
 }
 
-/* Fix Logout Button (Previously Blue) */
+/* Logout Button */
 .logout-btn {
     background-color: #198754 !important;
     border-color: #146c43 !important;
     color: white !important;
 }
 
-/* Prevent Hover Effect for Logout */
+/* Effect for Logout */
 .logout-btn:hover,
 .logout-btn:focus,
 .logout-btn:active {
@@ -56,7 +56,7 @@ html, body {
     flex: 1;
 }
 
-/* Updated Footer to stay at the bottom */
+/* Footer to stay at the bottom */
 .footer {
     font-size: 14px;
     text-align: center;
@@ -68,7 +68,7 @@ html, body {
     position: relative;
 }
 
-/* Style for Social Media Icons */
+/* Social Media Icons */
 .social-links {
     margin-top: 10px;
 }
@@ -104,206 +104,126 @@ html, body {
     transform: scale(1.05);
 }
 
-/* Form Styling */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-control {
-    border-radius: 5px;
-    padding: 12px;
-    font-size: 14px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.form-control:focus {
-    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
-    border-color: #198754;
-}
-
-/* Profile Page Layout */
-.profile-container {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: 20px;
-    text-align: center;
-}
-
-/* Profile Header - Centers Image & Info */
-.profile-header {
-    text-align: center;
-    padding-bottom: 20px;
-}
-
-/* Profile Bio Styling */
-.profile-bio {
-    max-width: 500px;
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-height: 100px;
-    overflow-y: auto;
-}
-
-/* Bio Textarea */
-.bio-textarea {
+/* Hero Section */
+.hero-section {
+    position: relative;
     width: 100%;
-    max-width: 100%;
-    height: 100px;
-    resize: none;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-/* User Posts Section */
-.user-posts-container {
-    width: 100%;
-    max-height: 400px;
-    overflow-y: auto;
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
-/* User Post Items */
-.user-posts-container ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.user-posts-container li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.user-posts-container li:last-child {
-    border-bottom: none;
-}
-
-/* Ensure Consistent Button Styling */
-.btn-warning {
-    font-weight: bold;
-    border-radius: 5px;
-}
-
-/* Additional Green Button Styling */
-.btn-success:hover, 
-.btn-primary:hover, 
-.btn:hover {
-    background-color: #146c43 !important;
-    border-color: #0f5132 !important;
-}
-
-/* Buttons Have Proper Padding */
-.btn {
-    padding: 10px;
-}
-
-/* Comment Button Spacing */
-.comment-button {
-    margin-bottom: 40px;
-}
-
-/* Edit Profile Form Styling */
-.edit-profile-form {
-    background: #f8f9fa;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
-.edit-profile-form h3 {
-    text-align: center;
+    height: 60vh;
+    overflow: hidden;
     margin-bottom: 20px;
 }
 
-.edit-profile-form .form-group {
-    margin-bottom: 20px;
-}
-
-.edit-profile-form .form-control {
-    border-radius: 5px;
-    padding: 12px;
-    font-size: 14px;
-}
-
-.edit-profile-form textarea {
-    resize: vertical;
-    min-height: 150px;
-    padding: 10px;
-}
-
-/* Profile Form Buttons */
-.edit-profile-btn {
-    display: inline-block;
-    width: auto;
-    padding: 12px 30px;
-    background-color: #198754;
-    border-color: #146c43;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 20px;
-}
-
-.edit-profile-btn:hover {
-    background-color: #146c43;
-    border-color: #0f5132;
-    transform: scale(1.05);
-}
-
-/* Modal Styling */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
+/* Hero Image Container */
+.hero-image-container {
+    position: relative;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-image: url('/static/images/heroimg.webp'); /* Corrected path */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    filter: brightness(80%);
 }
 
-.modal-dialog {
-    margin: 100px auto;
-    width: 50%;
+/* Make Hero Image Inside Container responsive with Bootstrap's img-fluid */
+.hero-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* For smaller screens */
+@media (max-width: 768px) {
+    .hero-image-container {
+        background-size: cover;
+        background-position: center center;
+    }
 }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
+/* For larger screens */
+@media (min-width: 1200px) {
+    .hero-image-container {
+        background-size: cover;
+    }
 }
 
-.modal-footer {
-    display: flex;
-    justify-content: space-between;
+/* Welcome Section */
+.welcome-section {
+    margin-top: 20px;
+    padding: 40px 0;
 }
 
-/* For modal buttons */
-.btn {
-    padding: 10px 20px;
-    font-size: 16px;
+.welcome-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.welcome-section p {
+    font-size: 1.25rem;
+    color: #555;
+}
+
+/* Content Section */
+.text-center {
+    text-align: center;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.card {
+    border: none;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.card-body a {
+    text-decoration: none;
+}
+
+.card-body a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design for Posts Grid */
+@media (max-width: 767px) {
+    .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .col-md-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-md-4 {
+        flex: 0 0 33.33333%;
+        max-width: 33.33333%;
+    }
 }

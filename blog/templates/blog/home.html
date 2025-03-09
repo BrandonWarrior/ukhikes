@@ -1,7 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-5">
+    <!-- Hero Image Section -->
+    <section class="hero-section">
+        <div class="hero-image-container">
+            <!-- Hero image with Bootstrap img-fluid class for responsiveness -->
+            <img src="{% static 'images/heroimg.webp' %}" alt="Hero Image" class="img-fluid">
+        </div>
+    </section>
+
+    <!-- Welcome Message Below the Hero Image -->
+    <section class="welcome-section text-center">
+        <h1 class="fw-bold">Welcome to UK Hikes 🏔</h1>
+        <p class="lead text-muted">Explore, share, and connect with fellow hikers across the UK.</p>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section text-center mt-4">
+        <h2 class="fw-bold">About UK Hikes</h2>
+        <p class="lead text-muted">UK Hikes is a platform for outdoor enthusiasts to discover the best hiking trails across the UK, share their adventures, and connect with a community of fellow hikers. Whether you are a seasoned hiker or just starting your journey, there's something here for everyone!</p>
+    </section>
+
     <!-- Display success messages -->
     {% for message in messages %}
         <div class="alert alert-success">
@@ -9,21 +30,18 @@
         </div>
     {% endfor %}
 
+    <!-- Authenticated User Actions -->
     <div class="text-center">
-        <h1 class="fw-bold">Welcome to UK Hikes 🏔</h1>
-        <p class="lead text-muted">Explore, share, and connect with fellow hikers across the UK.</p>
-
         {% if user.is_authenticated %}
             <a href="{% url 'create_post' %}" class="btn btn-primary btn-lg mt-3">Share Your Hike</a>
-            <!-- Link to create testimonial -->
             <a href="{% url 'create_testimonial' %}" class="btn btn-outline-secondary btn-lg mt-3">Submit a Testimonial</a>
-            <!-- Link to the testimonials page -->
             <a href="{% url 'testimonial_list' %}" class="btn btn-outline-primary btn-lg mt-3">View Testimonials</a>
         {% else %}
             <a href="{% url 'account_signup' %}" class="btn btn-success btn-lg mt-3">Join the Community</a>
         {% endif %}
     </div>
 
+    <!-- Latest Hiking Adventures -->
     <div class="mt-5">
         <h2 class="text-center">Latest Hiking Adventures</h2>
         <div class="row mt-3">
