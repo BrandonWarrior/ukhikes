@@ -1,13 +1,16 @@
 from pathlib import Path
 import os
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security Settings
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-secret-key')
-DEBUG = False
+DEBUG = True
 
 SITE_ID = 1
 
@@ -51,6 +54,7 @@ INSTALLED_APPS = [
     'blog',
     'profiles',
     'testimonials',
+    'cloudinary_storage',  # Added Cloudinary storage app
 ]
 
 # Middleware
@@ -132,6 +136,16 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media Files (Profile Pictures & User Uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Cloudinary Configuration
+cloudinary.config(
+    cloud_name='dgv1yketq',
+    api_key='759353575921226',
+    api_secret='F6Xb3lMjRQODJ_eXK2du4-tQmWw'
+)
+
+# Use Cloudinary Storage for media files
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

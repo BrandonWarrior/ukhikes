@@ -7,10 +7,19 @@
     <p>{{ post.content }}</p>
     <p><small>Published on {{ post.created_at }}</small></p>
 
+    <!-- Display Post Image from Cloudinary -->
+    {% if post.image %}
+        <div class="post-image">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid rounded">
+        </div>
+    {% endif %}
+
     <!-- Show Edit & Delete Buttons for Post Author -->
     {% if user.is_authenticated and user == post.author %}
-        <a href="{% url 'edit_post' post.id %}" class="btn btn-warning">✏️ Edit</a>
-        <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">🗑 Delete</a>
+        <div class="post-buttons mt-3">
+            <a href="{% url 'edit_post' post.id %}" class="btn btn-warning">✏️ Edit</a>
+            <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">🗑 Delete</a>
+        </div>
     {% endif %}
 
     <hr>
@@ -21,29 +30,9 @@
         <div class="mb-3 p-3 border rounded">
             <p><strong>{{ comment.author }}</strong> - {{ comment.created_at }}</p>
             <p>{{ comment.content }}</p>
-
-            <!-- Show Edit & Delete Buttons for Comment Author -->
-            {% if user.is_authenticated and user == comment.author %}
-                <a href="{% url 'edit_comment' comment.id %}" class="btn btn-warning btn-sm">✏️ Edit</a>
-                <a href="{% url 'delete_comment' comment.id %}" class="btn btn-danger btn-sm">🗑 Delete</a>
-            {% endif %}
         </div>
     {% empty %}
         <p>No comments yet. Be the first to comment!</p>
     {% endfor %}
-
-    <hr>
-
-    <!-- Comment Form -->
-    {% if user.is_authenticated %}
-        <h4>Add a Comment:</h4>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary comment-button">Post Comment</button>
-        </form>
-    {% else %}
-        <p><a href="{% url 'account_login' %}">Log in</a> to post a comment.</p>
-    {% endif %}
 </div>
 {% endblock %}

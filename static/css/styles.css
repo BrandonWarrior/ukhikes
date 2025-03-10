@@ -206,6 +206,25 @@ html, body {
     text-decoration: underline;
 }
 
+/* Post Image Styling */
+.post-image img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    margin-bottom: 20px;  /* Space between image and the next element */
+    border-radius: 8px;
+}
+
+/* Add spacing for Edit and Delete Buttons */
+.post-buttons {
+    margin-top: 20px;     /* Adds space between the image and buttons */
+}
+
+/* Optional: Adds spacing between Edit and Delete buttons */
+.post-buttons .btn {
+    margin-right: 10px;   /* Space between buttons */
+}
+
 /* Responsive Design for Posts Grid */
 @media (max-width: 767px) {
     .col-md-4 {
