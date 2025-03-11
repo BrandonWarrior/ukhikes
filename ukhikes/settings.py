@@ -8,7 +8,7 @@ import cloudinary.api
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-secret-key')
-DEBUG = True
+DEBUG = False
 
 SITE_ID = 1
 
@@ -135,7 +135,6 @@ CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dgv1yketq',
     'API_KEY': '759353575921226',
     'API_SECRET': 'F6Xb3lMjRQODJ_eXK2du4-tQmWw',
-    'PUBLIC_ID_FORMAT': '{public_id}',
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
