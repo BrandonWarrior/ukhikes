@@ -3,55 +3,45 @@
 
 {% block content %}
 <div class="container mt-5">
-    <!-- Display success messages -->
     {% for message in messages %}
         <div class="alert alert-success">
             {{ message }}
         </div>
     {% endfor %}
-
     <div class="row">
         <div class="col-md-4 text-center">
-            <img src="{{ user.profile.profile_picture.url|default:'/static/images/default-profile.jpg' }}" 
-     class="profile-image img-fluid rounded-circle border" 
-     alt="Profile Picture">
+            {% if user.profile.profile_picture %}
+                <img src="{{ user.profile.profile_picture.url }}" 
+                     class="profile-image img-fluid rounded-circle border" 
+                     alt="Profile Picture">
+            {% endif %}
         </div>
-
         <div class="col-md-8">
             <h2 class="text-primary">{{ user.username }}</h2>
             <p class="text-muted">Member since: {{ user.date_joined|date:"F Y" }}</p>
             <a href="{% url 'edit_profile' %}" class="btn btn-warning">Edit Profile</a>
-
             <hr>
             <h5>Bio</h5>
             <p>{{ user.profile.bio|default:"No bio yet. Add something about yourself!" }}</p>
-
-            <!-- New Fields -->
             <hr>
             <h5>Location</h5>
             <p>{{ user.profile.location|default:"Location not set" }}</p>
-
             <h5>Experience Level</h5>
             <p>{{ user.profile.experience_level|default:"Experience level not set" }}</p>
-
             <h5>Instagram Handle</h5>
             <p>{{ user.profile.instagram_handle|default:"Instagram handle not set" }}</p>
-
-            <!-- User's Blog Posts -->
             <hr>
             <h5>Your Posts:</h5>
             {% if user_posts %}
                 <div class="row mt-3">
                     {% for post in user_posts %}
-                        <div class="col-lg-4 col-md-6 mb-4">  <!-- Adjusted column sizes for responsiveness -->
+                        <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card shadow-sm h-100">
-                                <!-- Post Image -->
                                 {% if post.image %}
                                     <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
                                 {% else %}
                                     <img src="{% static 'images/default-image.jpg' %}" class="card-img-top" alt="Default Image">
                                 {% endif %}
-                                
                                 <div class="card-body">
                                     <h5 class="card-title">{{ post.title }}</h5>
                                     <p class="text-muted">By {{ post.author }} • {{ post.created_at|date:"F d, Y" }}</p>

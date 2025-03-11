@@ -5,10 +5,8 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-# Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Security Settings
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-secret-key')
 DEBUG = False
 
@@ -32,12 +30,10 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.herokuapp.com",
 ]
 
-# CSRF Secure settings for Heroku (only for production)
 if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 
-# Installed Applications
 INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.admin',
@@ -58,7 +54,6 @@ INSTALLED_APPS = [
     'cloudinary'
 ]
 
-# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -71,10 +66,8 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-# Root URL Configuration
 ROOT_URLCONF = 'ukhikes.urls'
 
-# Templates Configuration
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -96,10 +89,8 @@ TEMPLATES = [
     },
 ]
 
-# WSGI Application
 WSGI_APPLICATION = 'ukhikes.wsgi.application'
 
-# Database Configuration (Switches between PostgreSQL & SQLite)
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
@@ -112,7 +103,6 @@ else:
         }
     }
 
-# Password Validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -120,48 +110,40 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static Files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Enable WhiteNoise for Heroku Static Files Handling
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media Files (Profile Pictures & User Uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = ''
 
-# Cloudinary Configuration
 cloudinary.config(
     cloud_name='dgv1yketq',
     api_key='759353575921226',
     api_secret='F6Xb3lMjRQODJ_eXK2du4-tQmWw'
 )
 
-# Use Cloudinary Storage for media files
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dgv1yketq',
     'API_KEY': '759353575921226',
-    'API_SECRET': 'F6Xb3lMjRQODJ_eXK2du4-tQmWw'
+    'API_SECRET': 'F6Xb3lMjRQODJ_eXK2du4-tQmWw',
+    'PUBLIC_ID_FORMAT': '{public_id}',
 }
 
-# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# django-allauth Settings
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_FORMS = {"signup": "profiles.forms.CustomSignupForm"}
 
 AUTHENTICATION_BACKENDS = (
@@ -169,6 +151,5 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-# crispy-forms Settings (Bootstrap 5)
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"

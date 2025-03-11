@@ -1,54 +1,40 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
-{% csrf_token %}
-
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-center mb-4">Edit Your Profile</h2>
-
     <div class="row">
         <div class="col-md-4 text-center">
-            <img src="{{ user.profile.profile_picture.url }}" 
-     class="profile-image img-fluid rounded-circle border mb-3"
-     alt="Profile Picture">
-
+            {% if user.profile.profile_picture %}
+                <img src="{{ user.profile.profile_picture.url }}" 
+                     class="profile-image img-fluid rounded-circle border mb-3"
+                     alt="Profile Picture">
+            {% else %}
+                <!-- No image is shown until the user uploads one -->
+            {% endif %}
         </div>
-
         <div class="col-md-8">
             <h2 class="text-primary">{{ user.username }}</h2>
             <p class="text-muted">Member since: {{ user.date_joined|date:"F Y" }}</p>
-
-            <!-- Edit Profile Form -->
             <form method="POST" enctype="multipart/form-data" class="mt-4">
                 {% csrf_token %}
-
-                <!-- Username Field -->
                 <div class="form-group">
                     <label for="id_username">Username</label>
                     <input type="text" name="username" class="form-control" value="{{ form.username.value }}">
                 </div>
-
-                <!-- Profile Picture Field -->
                 <div class="form-group">
                     <label for="id_profile_picture">Profile Picture</label>
-                    <input type="file" name="profile_picture" class="form-control" />
+                    <input type="file" name="profile_picture" class="form-control">
                 </div>
-
-                <!-- Bio Field -->
                 <div class="form-group">
                     <label for="id_bio">Bio</label>
                     <textarea name="bio" class="form-control">{{ form.bio.value|default:'' }}</textarea>
                 </div>
-
-                <!-- Location Field -->
                 <div class="form-group">
                     <label for="id_location">Where Are You From?</label>
                     <input type="text" name="location" class="form-control" value="{{ form.location.value|default:'' }}">
                 </div>
-
-                <!-- Experience Level Field -->
                 <div class="form-group">
                     <label for="id_experience_level">Experience Level</label>
                     <select name="experience_level" class="form-control">
@@ -58,17 +44,12 @@
                         <option value="Advanced" {% if form.experience_level.value == 'Advanced' %}selected{% endif %}>Advanced</option>
                     </select>
                 </div>
-
-                <!-- Instagram Handle Field -->
                 <div class="form-group">
                     <label for="id_instagram_handle">Instagram Handle (Optional)</label>
                     <input type="text" name="instagram_handle" class="form-control" value="{{ form.instagram_handle.value|default:'' }}">
                 </div>
-
                 <button type="submit" class="btn btn-primary w-100">Save Changes</button>
             </form>
-
-            <!-- Delete Account Button -->
             <form method="POST" action="{% url 'delete_account' %}" id="delete-account-form" class="mt-4 mb-5">
                 {% csrf_token %}
                 <button type="button" id="delete-account-btn" class="btn btn-danger w-100">Delete My Account</button>
@@ -81,16 +62,13 @@
 <div id="confirmation-modal" class="modal" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!-- Modal Header -->
             <div class="modal-header">
                 <h5 class="modal-title">Confirm Account Deletion</h5>
                 <button type="button" class="close" id="close-modal-btn">&times;</button>
             </div>
-            <!-- Modal Body -->
             <div class="modal-body">
                 <p><strong>Warning:</strong> Deleting your account will permanently remove your profile, posts, and comments. This action cannot be undone.</p>
             </div>
-            <!-- Modal Footer -->
             <div class="modal-footer">
                 <button type="button" id="confirm-delete-btn" class="btn btn-danger">Yes, Delete My Account</button>
                 <button type="button" id="cancel-delete-btn" class="btn btn-secondary">No, Go Back</button>
@@ -99,7 +77,5 @@
     </div>
 </div>
 
-<!-- Link to JS file -->
 <script src="{% static 'js/edit_profile.js' %}"></script>
-
 {% endblock %}
