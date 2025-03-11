@@ -13,18 +13,23 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     created_at = models.DateTimeField(default=timezone.now)
     status = models.IntegerField(choices=STATUS, default=0)
-    image = models.ImageField(upload_to='post_images/', null=True, blank=True)  # Add this line for image upload
+    image = models.ImageField(upload_to='post_images/', null=True, blank=True)
 
     class Meta:
         ordering = ["-created_at"]
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            slug = base_slug
+            num = 1
+            while Post.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{num}"
+                num += 1
+            self.slug = slug
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        """Returns the URL for the post detail page."""
         return reverse('post_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
@@ -41,7 +46,6 @@ class Comment(models.Model):
         ordering = ["-created_at"]
 
     def get_absolute_url(self):
-        """Returns the URL for the post that the comment belongs to."""
         return reverse('post_detail', kwargs={'slug': self.post.slug})
 
     def __str__(self):

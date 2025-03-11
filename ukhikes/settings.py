@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'blog',
     'profiles',
     'testimonials',
-    'cloudinary_storage',  # Added Cloudinary storage app
+    'cloudinary_storage',
+    'cloudinary'
 ]
 
 # Middleware
@@ -135,7 +136,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media Files (Profile Pictures & User Uploads)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = ''
 
 # Cloudinary Configuration
 cloudinary.config(
@@ -146,6 +147,12 @@ cloudinary.config(
 
 # Use Cloudinary Storage for media files
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dgv1yketq',
+    'API_KEY': '759353575921226',
+    'API_SECRET': 'F6Xb3lMjRQODJ_eXK2du4-tQmWw'
+}
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
