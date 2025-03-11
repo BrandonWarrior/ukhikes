@@ -15,8 +15,6 @@
         </div>
     {% endif %}
 
-    <p>{{ post.image.url }}</p>
-
     <!-- Show Edit & Delete Buttons for Post Author -->
     {% if user.is_authenticated and user == post.author %}
         <div class="post-buttons mt-3">
