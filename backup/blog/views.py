@@ -7,16 +7,22 @@ from .forms import PostForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 # Home View
+
+
 def home(request):
     posts = Post.objects.all().order_by('-created_at')
     return render(request, 'blog/home.html', {'posts': posts})
 
 # Post Detail View
+
+
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     return render(request, 'blog/post_detail.html', {'post': post})
 
 # Register View
+
+
 def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -30,6 +36,8 @@ def register(request):
     return render(request, 'blog/register.html', {'form': form})
 
 # Login View
+
+
 def user_login(request):
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
@@ -43,6 +51,8 @@ def user_login(request):
     return render(request, 'blog/login.html', {'form': form})
 
 # Logout View
+
+
 @login_required
 def user_logout(request):
     logout(request)
@@ -50,6 +60,8 @@ def user_logout(request):
     return redirect('home')
 
 # Create Post View
+
+
 @login_required
 def create_post(request):
     if request.method == "POST":

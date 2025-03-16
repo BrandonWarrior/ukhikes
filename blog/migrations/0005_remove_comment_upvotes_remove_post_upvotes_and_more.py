@@ -24,12 +24,18 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='comment',
             name='likes',
-            field=models.ManyToManyField(blank=True, related_name='liked_comments', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='liked_comments',
+                to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='post',
             name='likes',
-            field=models.ManyToManyField(blank=True, related_name='liked_posts', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='liked_posts',
+                to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='comment',

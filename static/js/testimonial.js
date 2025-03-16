@@ -1,11 +1,19 @@
+/**
+ * Testimonial Submission Script
+ *
+ * This script handles the submission of the testimonial form via AJAX.
+ * When the form is submitted, it sends the data to the server, then
+ * displays a styled alert in the baseMessages container based on the
+ * response. If the submission is successful, the form is hidden.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     const testimonialForm = document.getElementById('testimonialForm');
-    const testimonialMessage = document.getElementById('testimonialMessage');
+    const baseMessages = document.getElementById('baseMessages');
 
-    // Check if testimonialForm exists before adding the event listener
     if (testimonialForm) {
         testimonialForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent the form from submitting normally
+            e.preventDefault();
+            console.log('Testimonial form submitted'); // Debug log
 
             const formData = new FormData(testimonialForm);
 
@@ -16,24 +24,48 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
+                let alertHtml = '';
                 if (data.success) {
-                    // Hide the form and show the success message
+                    alertHtml = `
+                        <div class="alert alert-success alert-dismissible fade show" 
+                             role="alert">
+                            Your testimonial has been sent for approval!
+                            <button type="button" class="btn-close" 
+                                    data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                        </div>`;
                     testimonialForm.style.display = 'none';
-                    testimonialMessage.style.display = 'block';
                 } else {
-                    // Show error message if submission fails
-                    testimonialMessage.classList.add('testimonial-error-message');
-                    testimonialMessage.classList.remove('testimonial-success-message');
-                    testimonialMessage.style.display = 'block';
-                    testimonialMessage.textContent = 'There was an error submitting your testimonial. Please try again.';
+                    alertHtml = `
+                        <div class="alert alert-danger alert-dismissible fade show" 
+                             role="alert">
+                            There was an error submitting your testimonial. 
+                            Please try again.
+                            <button type="button" class="btn-close" 
+                                    data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                        </div>`;
+                }
+                if (baseMessages) {
+                    baseMessages.innerHTML = alertHtml;
+                } else {
+                    alert(alertHtml);
                 }
             })
             .catch(error => {
-                // Handle error
-                testimonialMessage.classList.add('testimonial-error-message');
-                testimonialMessage.classList.remove('testimonial-success-message');
-                testimonialMessage.style.display = 'block';
-                testimonialMessage.textContent = 'An error occurred. Please try again.';
+                const alertHtml = `
+                        <div class="alert alert-danger alert-dismissible fade show" 
+                             role="alert">
+                            An error occurred. Please try again.
+                            <button type="button" class="btn-close" 
+                                    data-bs-dismiss="alert" aria-label="Close">
+                            </button>
+                        </div>`;
+                if (baseMessages) {
+                    baseMessages.innerHTML = alertHtml;
+                } else {
+                    alert(alertHtml);
+                }
             });
         });
     } else {

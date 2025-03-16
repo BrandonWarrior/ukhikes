@@ -1,13 +1,26 @@
 {% extends "base.html" %}
 
+<!--
+    Renders the form used to edit an object (e.g. a post or comment). This template displays
+    a back button, the edit form with CSRF protection, and buttons to save changes or cancel.
+-->
+
 {% block content %}
+
+<!-- Back Button Section: Provides a link for users to return to the home page. -->
+<div class="back-button">
+    <a href="{% url 'home' %}" class="btn btn-link">&larr; Back to Home</a>
+</div>
+
+<!-- Form Container Section: Contains the heading and the form for editing the object. -->
 <div class="container mt-5">
     <h2>Edit {{ object_type }}</h2>
-    <form method="POST">
+    <form method="POST" novalidate>
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-success">Save Changes</button>
         <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
 {% endblock %}

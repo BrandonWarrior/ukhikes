@@ -13,21 +13,39 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='experience_level',
-            field=models.CharField(blank=True, choices=[('Beginner', 'Beginner'), ('Intermediate', 'Intermediate'), ('Advanced', 'Advanced')], max_length=20, null=True),
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ('Beginner',
+                     'Beginner'),
+                    ('Intermediate',
+                     'Intermediate'),
+                    ('Advanced',
+                     'Advanced')],
+                max_length=20,
+                null=True),
         ),
         migrations.AddField(
             model_name='profile',
             name='favorite_hikes',
-            field=models.TextField(blank=True, null=True),
+            field=models.TextField(
+                blank=True,
+                null=True),
         ),
         migrations.AddField(
             model_name='profile',
             name='instagram_handle',
-            field=models.CharField(blank=True, max_length=50, null=True),
+            field=models.CharField(
+                blank=True,
+                max_length=50,
+                null=True),
         ),
         migrations.AddField(
             model_name='profile',
             name='location',
-            field=models.CharField(blank=True, max_length=100, null=True),
+            field=models.CharField(
+                blank=True,
+                max_length=100,
+                null=True),
         ),
     ]

@@ -6,12 +6,11 @@
     <!-- Hero Image Section -->
     <section class="hero-section">
         <div class="hero-image-container">
-            <!-- Hero image with Bootstrap img-fluid class for responsiveness -->
             <img src="{% static 'images/heroimg.webp' %}" alt="Hero Image" class="img-fluid">
         </div>
     </section>
 
-    <!-- Welcome Message Below the Hero Image -->
+    <!-- Welcome Message -->
     <section class="welcome-section text-center">
         <h1 class="fw-bold">Welcome to UK Hikes 🏔</h1>
         <p class="lead text-muted">Explore, share, and connect with fellow hikers across the UK.</p>
@@ -20,15 +19,11 @@
     <!-- About Section -->
     <section class="about-section text-center mt-4">
         <h2 class="fw-bold">About UK Hikes</h2>
-        <p class="lead text-muted">UK Hikes is a platform for outdoor enthusiasts to discover the best hiking trails across the UK, share their adventures, and connect with a community of fellow hikers. Whether you are a seasoned hiker or just starting your journey, there's something here for everyone!</p>
+        <p class="lead text-muted">
+            UK Hikes is a platform for outdoor enthusiasts to discover the best hiking trails across the UK,
+            share their adventures, and connect with a community of fellow hikers.
+        </p>
     </section>
-
-    <!-- Display success messages -->
-    {% for message in messages %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
 
     <!-- Authenticated User Actions -->
     <div class="text-center">
@@ -45,7 +40,7 @@
     <div class="mt-5">
         <h2 class="text-center">Latest Hiking Adventures</h2>
         <div class="row mt-3">
-            {% for post in posts %}
+            {% for post in page_obj %}
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
                         <div class="card-body">
@@ -60,6 +55,19 @@
                 <p class="text-center text-muted">No hiking posts yet. Be the first to share your adventure!</p>
             {% endfor %}
         </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination text-center mt-4">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">Previous</a>
+        {% endif %}
+
+        <span class="mx-3">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary">Next</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

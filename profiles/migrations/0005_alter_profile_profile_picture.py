@@ -14,6 +14,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='profile_picture',
-            field=cloudinary.models.CloudinaryField(blank=True, default='https://res.cloudinary.com/YOUR_CLOUD_NAME/image/upload/v1234567890/profile_pics/default.jpg', max_length=255, verbose_name='image'),
+            field=cloudinary.models.CloudinaryField(
+                blank=True,
+                default='https://res.cloudinary.com/YOUR_CLOUD_NAME/image/upload/v1234567890/profile_pics/default.jpg',
+                max_length=255,
+                verbose_name='image'),
         ),
     ]

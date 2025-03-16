@@ -2,22 +2,33 @@
 {% load static %}
 
 {% block content %}
+<!-- 
+    Renders the profile editing page for users. Allows users to update their username,
+    profile picture, bio, location, experience level and Instagram handle.
+    Also includes a form to confirm account deletion.
+-->
+
+<!-- Back Button Section: Returns user to their profile page -->
+<div class="back-button">
+    <a href="{% url 'profile' %}">&larr; Back to Profile</a>
+</div>
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Edit Your Profile</h2>
     <div class="row">
+        <!-- Profile Picture Section -->
         <div class="col-md-4 text-center">
             {% if user.profile.profile_picture %}
                 <img src="{{ user.profile.profile_picture.url }}" 
                      class="profile-image img-fluid rounded-circle border mb-3"
                      alt="Profile Picture">
-            {% else %}
-                <!-- No image is shown until the user uploads one -->
             {% endif %}
         </div>
+        <!-- Profile Form Section -->
         <div class="col-md-8">
             <h2 class="text-primary">{{ user.username }}</h2>
             <p class="text-muted">Member since: {{ user.date_joined|date:"F Y" }}</p>
-            <form method="POST" enctype="multipart/form-data" class="mt-4">
+            <form method="POST" enctype="multipart/form-data" class="mt-4" novalidate>
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="id_username">Username</label>
@@ -50,7 +61,8 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Save Changes</button>
             </form>
-            <form method="POST" action="{% url 'delete_account' %}" id="delete-account-form" class="mt-4 mb-5">
+            <!-- Delete Account Form Section -->
+            <form method="POST" action="{% url 'delete_account' %}" id="delete-account-form" class="mt-4 mb-5" novalidate>
                 {% csrf_token %}
                 <button type="button" id="delete-account-btn" class="btn btn-danger w-100">Delete My Account</button>
             </form>
@@ -58,7 +70,7 @@
     </div>
 </div>
 
-<!-- Custom Confirmation Modal -->
+<!-- Custom Confirmation Modal Section -->
 <div id="confirmation-modal" class="modal" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">

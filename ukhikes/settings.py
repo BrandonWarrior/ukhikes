@@ -1,3 +1,10 @@
+"""
+This file contains the configuration for the UK Hikes project. It sets up
+the base directory, security settings, installed applications, middleware,
+database configuration, static and media file handling, and third-party
+services (such as Cloudinary).
+"""
+
 from pathlib import Path
 import os
 import dj_database_url
@@ -8,7 +15,7 @@ import cloudinary.api
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-secret-key')
-DEBUG = False
+DEBUG = True
 
 SITE_ID = 1
 
@@ -51,7 +58,7 @@ INSTALLED_APPS = [
     'profiles',
     'testimonials',
     'cloudinary_storage',
-    'cloudinary'
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -93,7 +100,9 @@ WSGI_APPLICATION = 'ukhikes.wsgi.application'
 
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
-        'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
+        'default': dj_database_url.config(
+            default=os.environ.get("DATABASE_URL")
+        )
     }
 else:
     DATABASES = {
@@ -104,10 +113,14 @@ else:
     }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.'
+             'UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.'
+             'MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.'
+             'CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.'
+             'NumericPasswordValidator'},
 ]
 
 LANGUAGE_CODE = 'en-us'
@@ -118,7 +131,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage'
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = ''
@@ -129,7 +144,9 @@ cloudinary.config(
     api_secret='F6Xb3lMjRQODJ_eXK2du4-tQmWw'
 )
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = (
+    'cloudinary_storage.storage.MediaCloudinaryStorage'
+)
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dgv1yketq',

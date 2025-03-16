@@ -1,3 +1,7 @@
+/**
+ * Account Deletion Modal Script
+*/
+
 document.getElementById('delete-account-btn').addEventListener('click', function() {
     // Show the modal
     document.getElementById('confirmation-modal').style.display = 'block';

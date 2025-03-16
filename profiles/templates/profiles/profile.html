@@ -2,6 +2,16 @@
 {% load static %}
 
 {% block content %}
+<!-- 
+    Renders the user profile page, displaying profile details and posts.
+    The profile image is shown only if the user has uploaded one.
+-->
+
+<!-- Back Button Section: Returns user to their profile page -->
+<div class="back-button">
+    <a href="{% url 'index' %}">&larr; Back to Home</a>
+</div>
+
 <div class="container mt-5">
     {% for message in messages %}
         <div class="alert alert-success">
@@ -9,6 +19,7 @@
         </div>
     {% endfor %}
     <div class="row">
+        <!-- Profile Image Section -->
         <div class="col-md-4 text-center">
             {% if user.profile.profile_picture %}
                 <img src="{{ user.profile.profile_picture.url }}" 
@@ -16,6 +27,7 @@
                      alt="Profile Picture">
             {% endif %}
         </div>
+        <!-- Profile Details and Posts Section -->
         <div class="col-md-8">
             <h2 class="text-primary">{{ user.username }}</h2>
             <p class="text-muted">Member since: {{ user.date_joined|date:"F Y" }}</p>
@@ -32,15 +44,13 @@
             <p>{{ user.profile.instagram_handle|default:"Instagram handle not set" }}</p>
             <hr>
             <h5>Your Posts:</h5>
-            {% if user_posts %}
+            {% if page_obj %}
                 <div class="row mt-3">
-                    {% for post in user_posts %}
+                    {% for post in page_obj %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card shadow-sm h-100">
                                 {% if post.image %}
                                     <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
-                                {% else %}
-                                    <img src="{% static 'images/default-image.jpg' %}" class="card-img-top" alt="Default Image">
                                 {% endif %}
                                 <div class="card-body">
                                     <h5 class="card-title">{{ post.title }}</h5>
@@ -51,6 +61,16 @@
                             </div>
                         </div>
                     {% endfor %}
+                </div>
+                <!-- Pagination Controls Section -->
+                <div class="pagination text-center mt-4">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">Previous</a>
+                    {% endif %}
+                    <span class="mx-3">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary">Next</a>
+                    {% endif %}
                 </div>
             {% else %}
                 <p class="text-center text-muted">You haven't posted anything yet. Be the first to share your adventure!</p>

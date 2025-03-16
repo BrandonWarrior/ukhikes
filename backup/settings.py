@@ -19,7 +19,7 @@ LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_SIGNUP_REDIRECT_URL = '/profile/'
 
 ALLOWED_HOSTS = [
-    "127.0.0.1", 
+    "127.0.0.1",
     "localhost",
     ".herokuapp.com",
 ]
@@ -140,4 +140,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Debugging Only: Serve Media Files in Development
 if DEBUG:
     from django.conf.urls.static import static
-    urlpatterns = static(MEDIA_URL, document_root=MEDIA_ROOT) + static(STATIC_URL, document_root=STATICFILES_DIRS[0])
+    urlpatterns = static(MEDIA_URL,
+                         document_root=MEDIA_ROOT) + static(STATIC_URL,
+                                                            document_root=STATICFILES_DIRS[0])
