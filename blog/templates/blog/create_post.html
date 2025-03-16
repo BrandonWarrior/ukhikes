@@ -3,14 +3,17 @@
 
 <!--
 This template renders the form for creating a new blog post.
-It includes a back button and a form for entering the post title, content, and an optional image upload.
+It includes a back button and a form for entering the post title,
+content, and an optional image upload.
 -->
 
 {% block content %}
 
 <!-- Back Button: Provides a link for users to navigate back to the home page. -->
 <div class="back-button">
-    <a href="{% url 'home' %}" class="btn btn-link">&larr; Back to Home</a>
+    <a href="{% url 'index' %}" class="btn btn-link">
+        &larr; Back to Home
+    </a>
 </div>
 
 <!-- Form Container Section: Contains the heading and form for creating a new post. -->
@@ -23,12 +26,15 @@ It includes a back button and a form for entering the post title, content, and a
             <!-- Title Field Section: Input for the post title. -->
             <div class="form-group">
                 <label for="title">Post Title</label>
-                <input type="text" name="title" class="form-control" value="{{ form.title.value|default:'' }}">
+                <input type="text" name="title" class="form-control"
+                       value="{{ form.title.value|default:'' }}">
             </div>
             <!-- Content Field Section: Textarea for the post content. -->
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea name="content" class="form-control">{{ form.content.value|default:'' }}</textarea>
+                <textarea name="content" class="form-control">
+                    {{ form.content.value|default:'' }}
+                </textarea>
             </div>
             <!-- Image Upload Field Section: Optional file input for an image upload. -->
             <div class="form-group">

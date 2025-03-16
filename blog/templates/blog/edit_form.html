@@ -1,15 +1,11 @@
 {% extends "base.html" %}
 
-<!--
-    Renders the form used to edit an object (e.g. a post or comment). This template displays
-    a back button, the edit form with CSRF protection, and buttons to save changes or cancel.
--->
-
 {% block content %}
-
-<!-- Back Button Section: Provides a link for users to return to the home page. -->
+<!-- Back Button Section: Provides a link for users to return to the profile page. -->
 <div class="back-button">
-    <a href="{% url 'home' %}" class="btn btn-link">&larr; Back to Home</a>
+    <a href="{% url 'Profile' %}" class="btn btn-link">
+        &larr; Back to Profile
+    </a>
 </div>
 
 <!-- Form Container Section: Contains the heading and the form for editing the object. -->
@@ -22,5 +18,4 @@
         <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
-
 {% endblock %}

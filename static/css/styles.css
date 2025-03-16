@@ -283,9 +283,10 @@ body {
     margin: 0 10px;
 }
 
-/* Back Button Styling (placed below header) */
+/* Back Button Styling */
 .back-button {
     margin: 20px 10px;
+
 }
 
 .back-button a {

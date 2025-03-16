@@ -9,9 +9,13 @@
 -->
 
 <!-- Back Button Section: Returns user to their profile page -->
+<!-- Back Button Section: Provides a link for users to return to the profile page. -->
 <div class="back-button">
-    <a href="{% url 'profile' %}">&larr; Back to Profile</a>
+    <a href="{% url 'profile' %}" class="btn btn-link">
+        &larr; Back to Profile
+    </a>
 </div>
+
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Edit Your Profile</h2>
