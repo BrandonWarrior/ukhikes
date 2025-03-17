@@ -53,7 +53,11 @@
         <h3>Leave a Comment:</h3>
         <form method="POST" novalidate>
             {% csrf_token %}
-            {{ form.as_p }}
+            <!-- Render the field manually without errors -->
+            <p>
+                <label for="{{ form.content.id_for_label }}">Comment:</label>
+                {{ form.content }}
+            </p>
             <button type="submit" class="btn btn-primary">
                 Submit Comment
             </button>

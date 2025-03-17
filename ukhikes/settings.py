@@ -15,7 +15,7 @@ import cloudinary.api
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-secret-key')
-DEBUG = False
+DEBUG = True
 
 SITE_ID = 1
 

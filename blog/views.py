@@ -4,10 +4,9 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
-
 
 def home(request):
     """
@@ -18,7 +17,6 @@ def home(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'blog/index.html', {'page_obj': page_obj})
-
 
 def post_detail(request, slug):
     """
@@ -48,40 +46,37 @@ def post_detail(request, slug):
         'form': form,
     })
 
-
 @login_required
 def create_post(request):
     """
     Permits authenticated users to create a new blog post.
+    After a successful submission, the user is redirected to the index page
+    with a success message.
     """
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.status = 1
+            post.status = 1  # Or apply your own published logic
             post.save()
-            messages.success(
-                request,
-                "Your post has been created successfully!"
-            )
+            messages.success(request, "Your post has been created successfully!")
+            return redirect('index')
         else:
-            messages.error(
-                request,
-                "Post not uploaded. Check title and content."
-            )
-        return redirect('home')
+            messages.error(request, "Post not uploaded. Check title and content.")
+            return redirect('index')
     else:
         form = PostForm()
     return render(request, 'blog/create_post.html', {'form': form})
 
-
 class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
     Permits a post author to edit their blog post.
+    After saving changes, the user is redirected to the post detail page.
     """
     model = Post
-    fields = ['title', 'content', 'status']
+    # Updated fields: now includes 'image' and 'status' to match your template.
+    fields = ['title', 'content', 'image', 'status']
     template_name = 'blog/edit_form.html'
 
     def test_func(self):
@@ -100,13 +95,28 @@ class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context['cancel_url'] = self.object.get_absolute_url()
         return context
 
+    def form_valid(self, form):
+        """
+        Called when a valid form is submitted.
+        Saves the changes and prints debug info.
+        """
+        response = super().form_valid(form)
+        # Debug print to confirm updated values; check your console.
+        print("Updated Post:", self.object.title, self.object.content, self.object.status)
+        return response
+
+    def get_success_url(self):
+        """
+        Redirects to the post detail page after editing.
+        """
+        return reverse('post_detail', kwargs={'slug': self.object.slug})
 
 class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """
     Permits a post author to delete their blog post.
     """
     model = Post
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('index')
 
     def test_func(self):
         """
@@ -123,13 +133,12 @@ class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         """
-        Deletes the post and redirects to the home page with a success message.
+        Deletes the post and redirects to the index page with a success message.
         """
         post = self.get_object()
         post.delete()
         messages.success(request, "Your post has been deleted.")
         return redirect(self.success_url)
-
 
 @login_required
 def edit_comment(request, comment_id):
@@ -139,7 +148,7 @@ def edit_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     if request.user != comment.author:
         messages.error(request, "You cannot edit someone else's comment.")
-        return redirect('home')
+        return redirect('index')
     if request.method == "POST":
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
@@ -154,7 +163,6 @@ def edit_comment(request, comment_id):
         'cancel_url': comment.post.get_absolute_url(),
     })
 
-
 @login_required
 def delete_comment(request, comment_id):
     """
@@ -163,7 +171,7 @@ def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     if request.user != comment.author:
         messages.error(request, "You cannot delete someone else's comment.")
-        return redirect('home')
+        return redirect('index')
     post_slug = comment.post.slug
     comment.delete()
     messages.success(request, "Your comment has been deleted.")
