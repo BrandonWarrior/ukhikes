@@ -15,11 +15,8 @@
 </div>
 
 <div class="container mt-5">
-    {% for message in messages %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
+    {# Removed duplicate messages loop since base.html already renders messages #}
+
     <div class="row">
         <!-- Profile Image Section -->
         <div class="col-md-4 text-center">
