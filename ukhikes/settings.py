@@ -11,7 +11,6 @@ import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-import django_heroku
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,22 +37,19 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.herokuapp.com",
 ]
 
-# === Security & SSL Settings ===
-SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
-SESSION_COOKIE_SECURE = True  # Secure session cookies
-CSRF_COOKIE_SECURE = True  # Secure CSRF cookies
-
-# HTTP Strict Transport Security (HSTS)
-SECURE_HSTS_SECONDS = 31536000  # 1 year (Recommended for security)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True  # Preload HSTS (for better browser enforcement)
-
-# Prevent security vulnerabilities
-SECURE_BROWSER_XSS_FILTER = True  # Protect against XSS attacks
-SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME-based attacks
-
-# Trust Heroku's SSL forwarding
+# Production Security Settings
+SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+SECURE_REFERRER_POLICY = 'same-origin'
+
+if not DEBUG:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 
 INSTALLED_APPS = [
     'django.contrib.sites',
@@ -78,9 +74,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -112,11 +108,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ukhikes.wsgi.application'
 
-# === Database Configuration ===
-# Only use dj_database_url if DATABASE_URL is provided and non-empty.
-if os.environ.get('DATABASE_URL'):
+if 'DATABASE_URL' in os.environ:
     DATABASES = {
-        'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
+        'default': dj_database_url.config(
+            default=os.environ.get("DATABASE_URL")
+        )
     }
 else:
     DATABASES = {
@@ -127,14 +123,10 @@ else:
     }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.'
-             'UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.'
-             'MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.'
-             'CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.'
-             'NumericPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 LANGUAGE_CODE = 'en-us'
@@ -145,22 +137,29 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage'
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = ''
 
 cloudinary.config(
-    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME', 'dgv1yketq'),
-    api_key=os.getenv('CLOUDINARY_API_KEY', '759353575921226'),
-    api_secret=os.getenv('CLOUDINARY_API_SECRET', 'F6Xb3lMjRQODJ_eXK2du4-tQmWw')
+    cloud_name='dgv1yketq',
+    api_key='759353575921226',
+    api_secret='F6Xb3lMjRQODJ_eXK2du4-tQmWw'
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dgv1yketq',
+    'API_KEY': '759353575921226',
+    'API_SECRET': 'F6Xb3lMjRQODJ_eXK2du4-tQmWw',
+}
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Django Allauth Configuration
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
@@ -174,6 +173,3 @@ AUTHENTICATION_BACKENDS = (
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-
-# Automatically configure settings for Heroku (including logging & database)
-django_heroku.settings(locals())
