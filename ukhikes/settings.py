@@ -39,18 +39,18 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # === Security & SSL Settings ===
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
+SESSION_COOKIE_SECURE = True  # Secure session cookies
+CSRF_COOKIE_SECURE = True  # Secure CSRF cookies
 
 # HTTP Strict Transport Security (HSTS)
-SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_SECONDS = 31536000  # 1 year (Recommended for security)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_PRELOAD = True  # Preload HSTS (for better browser enforcement)
 
 # Prevent security vulnerabilities
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True  # Protect against XSS attacks
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME-based attacks
 
 # Trust Heroku's SSL forwarding
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -112,12 +112,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ukhikes.wsgi.application'
 
-# Database Configuration
-if 'DATABASE_URL' in os.environ:
+# === Database Configuration ===
+# Only use dj_database_url if DATABASE_URL is provided and non-empty.
+if os.environ.get('DATABASE_URL'):
     DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get("DATABASE_URL")
-        )
+        'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
     }
 else:
     DATABASES = {
@@ -176,5 +175,5 @@ AUTHENTICATION_BACKENDS = (
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-# Automatically configure settings for Heroku
+# Automatically configure settings for Heroku (including logging & database)
 django_heroku.settings(locals())
