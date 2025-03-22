@@ -27,6 +27,7 @@ def post_detail(request, slug):
     """
     post = get_object_or_404(Post, slug=slug, status=1)
     comments = post.comments.filter(approved=True).order_by("-created_at")
+
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -37,16 +38,21 @@ def post_detail(request, slug):
             return redirect("post_detail", slug=post.slug)
         else:
             messages.error(
-             request,
-             "Comment not posted. Enter a valid comment."
+                request,
+                "Comment not posted. Enter a valid comment."
             )
 
     else:
         form = CommentForm()
+
     return render(
         request,
         "blog/post_detail.html",
-        {"post": post, "comments": comments, "form": form},
+        {
+            "post": post,
+            "comments": comments,
+            "form": form,
+        }
     )
 
 
@@ -54,41 +60,37 @@ def post_detail(request, slug):
 def create_post(request):
     """
     Permits authenticated users to create a new blog post.
-    After a successful submission, the user is redirected to the index page
-    with a success message.
+    After a successful submission, the post is automatically published
+    and the user is redirected to the index page with a success message.
     """
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            post.status = 1  # Or apply your own published logic
+            post.status = 1
             post.save()
             messages.success(
-             request,
-             "Your post has been created successfully!"
-             )
-
+                request, "Your post has been created successfully!")
             return redirect("index")
         else:
             messages.error(
-             request,
-             "Post not uploaded. Check title and content."
-             )
-
+                request, "Post not uploaded. Check title and content.")
             return redirect("index")
+
     else:
         form = PostForm()
+
     return render(request, "blog/create_post.html", {"form": form})
 
 
 class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
     Permits a post author to edit their blog post.
-    After saving changes, the user is redirected to the post detail page.
+    The post is automatically set to published (status=1) upon saving.
     """
     model = Post
-    fields = ["title", "content", "image", "status"]
+    fields = ["title", "content", "image"]
     template_name = "blog/edit_form.html"
 
     def test_func(self):
@@ -109,16 +111,12 @@ class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         """
-        Called when a valid form is submitted.
-        Saves the changes and prints debug info.
+        Automatically sets the post status to published (1) before saving.
         """
+        form.instance.status = 1
         response = super().form_valid(form)
-        print(
-            "Updated Post:",
-            self.object.title,
-            self.object.content,
-            self.object.status,
-        )
+        print("Updated Post:", self.object.title,
+              self.object.content, self.object.status)
         return response
 
     def get_success_url(self):
@@ -150,10 +148,9 @@ class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         """
-        Deletes the post and redirects to the index page
-        with a success message.
+        Deletes the post and redirects to the
+        index page with a success message.
         """
-
         post = self.get_object()
         post.delete()
         messages.success(request, "Your post has been deleted.")
@@ -169,14 +166,17 @@ def edit_comment(request, comment_id):
     if request.user != comment.author:
         messages.error(request, "You cannot edit someone else's comment.")
         return redirect("index")
+
     if request.method == "POST":
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
             messages.success(request, "Your comment has been updated!")
             return redirect("post_detail", slug=comment.post.slug)
+
     else:
         form = CommentForm(instance=comment)
+
     return render(
         request,
         "blog/edit_form.html",
@@ -184,7 +184,7 @@ def edit_comment(request, comment_id):
             "form": form,
             "object_type": "Comment",
             "cancel_url": comment.post.get_absolute_url(),
-        },
+        }
     )
 
 
@@ -197,6 +197,7 @@ def delete_comment(request, comment_id):
     if request.user != comment.author:
         messages.error(request, "You cannot delete someone else's comment.")
         return redirect("index")
+
     post_slug = comment.post.slug
     comment.delete()
     messages.success(request, "Your comment has been deleted.")

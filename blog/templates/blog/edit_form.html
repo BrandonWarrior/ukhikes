@@ -1,12 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block head %}
-  {{ block.super }}
-  <!-- Additional head content if needed -->
-{% endblock %}
-
 {% block content %}
+<!-- Back Button: Back to Home -->
 <div class="back-button">
     <a href="{% url 'index' %}" class="btn btn-link">
         &larr; Back to Home
@@ -14,31 +10,55 @@
 </div>
 
 <div class="container mt-5">
-    <h2>Edit Post</h2>
+    <h1>Edit Post</h1>
+
+    <!-- Display general validation message if the form has errors -->
+    {% if form.errors %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> Do not leave any fields empty.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    <!-- Post Edit Form -->
     <form method="POST" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
+
+        <!-- Title Field Section (manual styling) -->
         <div class="form-group mb-3">
             <label for="{{ form.title.id_for_label }}">Post Title</label>
-            {{ form.title }}
+            <input type="text" name="title" class="form-control" value="{{ form.title.value|default:'' }}">
         </div>
+
+        <!-- Content Field Section (manual styling) -->
         <div class="form-group mb-3">
             <label for="{{ form.content.id_for_label }}">Content</label>
-            {{ form.content }}
+            <textarea name="content" class="form-control">{{ form.content.value|default:'' }}</textarea>
         </div>
+
+        <!-- Image Upload Section (optional) -->
         {% if form.image %}
         <div class="form-group mb-3">
             <label for="{{ form.image.id_for_label }}">Upload Image (Optional)</label>
-            {{ form.image }}
+            <input type="file" name="image" class="form-control">
         </div>
         {% endif %}
+
+        <!-- Status Field Section (optional) -->
         {% if form.status %}
         <div class="form-group mb-3">
             <label for="{{ form.status.id_for_label }}">Status</label>
-            {{ form.status }}
+            <select name="status" class="form-control">
+                <option value="0" {% if form.status.value == "0" %}selected{% endif %}>Draft</option>
+                <option value="1" {% if form.status.value == "1" %}selected{% endif %}>Published</option>
+            </select>
         </div>
         {% endif %}
-        <button type="submit" class="btn btn-success">Save Changes</button>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-warning">Save Changes</button>
         <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
 {% endblock %}

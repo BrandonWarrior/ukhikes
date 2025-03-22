@@ -1,21 +1,17 @@
-"""
-Contains views for user registration, login, logout and profile management.
-"""
-
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
-from .forms import ProfileUpdateForm
 from blog.models import Post, Comment
+from .forms import ProfileUpdateForm
 
 
 def register(request):
     """
-    Handles user registration. Saves the user and logs them in, then
-    redirects to the profile page.
+    Handles user registration. Saves the new user, logs them in,
+    and then redirects to the profile page.
     """
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -30,8 +26,9 @@ def register(request):
 
 def login_view(request):
     """
-    Handles user login and redirects to the profile page upon successful
-    authentication.
+    Handles user login by authenticating the credentials.
+    On successful authentication, the user is logged in and
+    redirected to their profile page.
     """
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
@@ -46,7 +43,8 @@ def login_view(request):
 
 def logout_view(request):
     """
-    Logs out the user and redirects to the home page with a success message.
+    Logs out the current user and redirects to the home page
+    with a success message.
     """
     logout(request)
     messages.success(request, "You have been logged out.")
@@ -56,12 +54,12 @@ def logout_view(request):
 @login_required
 def profile(request):
     """
-    Displays the user's profile page with their posts, paginated.
+    Displays the user's profile page along with their posts.
+    User posts are paginated with six posts per page.
     """
-    user_posts = (
-        Post.objects.filter(author=request.user)
-        .order_by('-created_at')
-    )
+    user_posts = Post.objects.filter(
+        author=request.user
+        ).order_by('-created_at')
     paginator = Paginator(user_posts, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -71,14 +69,13 @@ def profile(request):
 @login_required
 def edit_profile(request):
     """
-    Permits users to edit their profile details.
+    Permits users to edit their profile details including username,
+    profile picture, bio, location, experience level, favourite hikes,
+    and Instagram handle.
     """
     if request.method == "POST":
-        form = ProfileUpdateForm(
-            request.POST,
-            request.FILES,
-            instance=request.user.profile
-        )
+        form = ProfileUpdateForm(request.POST, request.FILES,
+                                 instance=request.user.profile)
         if form.is_valid():
             form.save()
             messages.success(request, "Your profile has been updated.")
@@ -91,8 +88,9 @@ def edit_profile(request):
 @login_required
 def delete_account(request):
     """
-    Confirms and deletes the user's account along with their related posts
-    and comments.
+    Confirms and deletes the user's account along with all related posts
+    and comments. Redirects to the home page
+    with a success message upon deletion.
     """
     if request.method == "POST":
         posts = Post.objects.filter(author=request.user)
@@ -101,9 +99,8 @@ def delete_account(request):
         comments.delete()
         user = request.user
         user.delete()
-        messages.success(
-            request,
-            "Account deleted successfully."
-        )
+        messages.success(request,
+                         "Your account has been successfully deleted."
+                         )
         return redirect("home")
     return redirect("profile")

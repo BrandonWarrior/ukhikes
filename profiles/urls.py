@@ -1,10 +1,6 @@
-"""
-Defines URL patterns for user registration, login, logout, profile view,
-editing, and account deletion.
-"""
-
 from django.urls import path
 from . import views
+
 
 urlpatterns = [
     path('register/', views.register, name="register"),

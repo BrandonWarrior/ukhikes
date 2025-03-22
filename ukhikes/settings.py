@@ -1,34 +1,35 @@
-"""
-This file contains the configuration for the UK Hikes project. It sets up
-the base directory, security settings, installed applications, middleware,
-database configuration, static and media file handling, and third-party
-services (such as Cloudinary).
-"""
-
 from pathlib import Path
 import os
 import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-secret-key')
-DEBUG = False
+# Load secret key from the environment variables
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+# Set the debug flag based on the environment
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
+
+# This is for local development; in production, set SECURE_SSL_REDIRECT to True
+SECURE_SSL_REDIRECT = False
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+# Redirect settings for Allauth: redirect to profile page after login/signup
+LOGIN_REDIRECT_URL = '/profile/'
 ACCOUNT_SIGNUP_REDIRECT_URL = '/profile/'
+LOGOUT_REDIRECT_URL = '/'
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    ".herokuapp.com",
-    "ukhikes-blog.herokuapp.com",
-]
+# Allowed hosts configuration, you can add more for production if needed
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS',
+                          '127.0.0.1,localhost,.herokuapp.com').split(',')
 
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1",
@@ -37,19 +38,14 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.herokuapp.com",
 ]
 
-# Production Security Settings
-SECURE_SSL_REDIRECT = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_HTTPONLY = True
-SECURE_REFERRER_POLICY = 'same-origin'
-
+# Security settings based on DEBUG mode
 if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+else:
+    SECURE_SSL_REDIRECT = False
 
 INSTALLED_APPS = [
     'django.contrib.sites',
@@ -68,7 +64,7 @@ INSTALLED_APPS = [
     'profiles',
     'testimonials',
     'cloudinary_storage',
-    'cloudinary',
+    'cloudinary'
 ]
 
 MIDDLEWARE = [
@@ -108,26 +104,38 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ukhikes.wsgi.application'
 
-if 'DATABASE_URL' in os.environ:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get("DATABASE_URL")
-        )
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# Database configuration using DATABASE_URL environment variable
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
 
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator'
+        ),
+    },
+    {
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'MinimumLengthValidator'
+        ),
+    },
+    {
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'CommonPasswordValidator'
+        ),
+    },
+    {
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'NumericPasswordValidator'
+        ),
+    },
 ]
+
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -137,31 +145,31 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = (
-    'whitenoise.storage.CompressedManifestStaticFilesStorage'
-)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = ''
 
+# Cloudinary Configuration using environment variables
 cloudinary.config(
-    cloud_name='dgv1yketq',
-    api_key='759353575921226',
-    api_secret='F6Xb3lMjRQODJ_eXK2du4-tQmWw'
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET')
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dgv1yketq',
-    'API_KEY': '759353575921226',
-    'API_SECRET': 'F6Xb3lMjRQODJ_eXK2du4-tQmWw',
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET')
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Allauth settings
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_FORMS = {"signup": "profiles.forms.CustomSignupForm"}
@@ -170,6 +178,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"

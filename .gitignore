@@ -11,3 +11,4 @@ cloudinary_python.txt.DS_Store
 db.sqlite3
 env/
 venv/media/
+.env
