@@ -41,6 +41,11 @@
                 {{ comment.created_at|date:"F d, Y H:i" }}
             </p>
             <p>{{ comment.content }}</p>
+            {% if user.is_authenticated and user == comment.author %}
+                <a href="{% url 'delete_comment' comment.id %}" class="btn btn-danger btn-sm">
+                    Delete Comment
+                </a>
+            {% endif %}
         </div>
     {% empty %}
         <p>No comments yet. Be the first to comment!</p>
@@ -49,16 +54,16 @@
     <hr>
 
     <!-- Comment Form -->
+     <div class="mb-5">
     {% if user.is_authenticated %}
         <h3>Leave a Comment:</h3>
         <form method="POST" novalidate>
             {% csrf_token %}
-            <!-- Render the field manually without errors -->
             <p>
                 <label for="{{ form.content.id_for_label }}">Comment:</label>
                 {{ form.content }}
             </p>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary mt-3">
                 Submit Comment
             </button>
         </form>
