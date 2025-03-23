@@ -6,6 +6,7 @@ The **Hiking Blog** is a platform for outdoor enthusiasts to share, discover, an
 
 For project planning, see: [Project Planning](planning.md)
 
+For project testing see: [Project Testing](testing.md)
 ---
 
 ## Features
@@ -13,157 +14,110 @@ For project planning, see: [Project Planning](planning.md)
 ### Core Features (MVP)
 
 1. **User Registration and Authentication**:
-   - Secure user registration and login.
-   - Profile updates for showcasing user information and authored posts.
-
+   - Secure user registration, login, and profile updates using **Django-Allauth**.
+   
 2. **Post Management**:
-   - Create, edit, and delete posts with details like title, content, location, and difficulty.
-   - Filter and search posts by location and difficulty.
+   - Users can create, edit, and delete hiking posts with details such as title, content, location, and difficulty.
+   - **Search** for posts by title or content.
 
 3. **Community Interaction**:
-   - Comment on posts to engage with the community.
-   - Upvote/downvote posts to highlight the best content.
+   - Users can comment on posts to engage in discussions with other hikers.
+   
+4. **Admin Moderation**:
+   - Admins can moderate posts, comments, and users to ensure a positive community environment.
 
-4. **Responsive Design**:
-   - Fully responsive UI for desktop, tablet, and mobile devices.
+5. **Responsive Design**:
+   - Fully responsive and mobile-friendly UI for desktop, tablet, and mobile devices.
 
-5. **Admin Moderation**:
-   - Admins can manage posts, comments, and users to maintain a positive community environment.
-
-For a full list of planned features refer to the [Project Planning](planning.md) document.
-
----
-
-## Installation and Setup
-
-### Prerequisites
-
-- Python 
-- pip
-- Virtual environment 
-
-### Installation Steps
+### Future Features:
+- **Location and Difficulty Filtering**: Implement filters for posts based on location and difficulty (planned for future development).
+- **Upvote/Downvote System**: Allow users to upvote or downvote posts to highlight helpful content.
+- **Hike Rating**: Implement a rating system for each hike.
 
 ---
 
-## 🐛 **Bugs and Fixes**
+## Input Validation
 
-### **1️⃣ ERR_SSL_PROTOCOL_ERROR when Running the Server**
-- **Bug**: Attempted to access Django’s development server over HTTPS, but it only supports HTTP.
-- **Fix**: Used `http://127.0.0.1:8000/blog/` instead of `https://`.
+The application implements robust **input validation** to ensure proper data handling and prevent errors:
 
----
+1. **User Registration**:
+   - Ensures users cannot submit empty or invalid email addresses or weak passwords.
 
-### **2️⃣ Git Push Rejected Due to Upstream Issues**
-- **Bug**: The local Git branch was behind the remote repository.
-- **Fix**:
-  - Pulled remote changes first using:
-    ```bash
-    git pull origin main --rebase
-    ```
-  - Then retried the push:
-    ```bash
-    git push origin main
-    ```
+2. **Post Creation**:
+   - Ensures that all required fields (title, content, location, difficulty) are filled out before submission.
+   
+3. **Commenting**:
+   - Validates that comments are within acceptable length and format.
+
+4. **Login and Authentication**:
+   - Ensures valid credentials are required for login, and handles incorrect login attempts.
 
 ---
 
-### **3️⃣ Login Page Displaying "Register" Instead of "Login"**
-- **Bug**: Incorrectly named template file or incorrect context variable.
-- **Fix**:
-  - Updated `login.html` template to correctly display "Login" instead of "Register."
-  - Ensured the title block was set properly:
-    ```html
-    {% block title %}Login{% endblock %}
-    ```
+## How to Use the Site
+
+The **Hiking Blog** is designed to be intuitive and easy to use. Below are the steps to navigate and interact with the site.
+
+### 1. **Registering and Logging In**
+- Users must create an account to submit posts and interact with the community. Once logged in, they can manage their posts and profile.
+
+![Registration Screen](assets/images/registerscreen.png)
+
+### 2. **Creating a Post**
+- After logging in, users can create a post about a hiking adventure by providing a title, content, location, and difficulty level.
+
+![Create Post Screen](assets/images/createposts-wireframe.png)
+
+### 3. **Browsing and Interacting with Posts**
+- The homepage displays all posts, where users can browse hikes, comment, and view testimonials from other users.
+
+![Post Feed](assets/images/feed-wireframe.png)
+
+### 4. **Leaving a Testimonial**
+- Users can leave a testimonial for hikes they have completed, sharing personal insights and experiences.
+
+![Testimonial Screen](assets/images/testimonial.png)
+
+### 5. **Commenting and Engaging with the Community**
+- Users can comment on posts, ask questions, and provide feedback on the content shared by other hikers.
+
+![Commenting on Posts](assets/images/comment.png)
 
 ---
 
-### **4️⃣ Unable to Login Using Email Instead of Username**
-- **Bug**: Django-allauth defaulted to username-based authentication.
-- **Fix**:
-  - Enabled email-based login in `settings.py`:
-    ```python
-    ACCOUNT_AUTHENTICATION_METHOD = "email"
-    ACCOUNT_EMAIL_REQUIRED = True
-    ACCOUNT_USERNAME_REQUIRED = False
-    ```
+## Future Developments/Enhancements
+
+1. **Location and Difficulty Filtering**: A filter to allow users to search posts based on location and difficulty (currently planned for future development).
+2. **Upvote/Downvote System**: This feature will allow users to upvote or downvote posts and testimonials, similar to a Reddit-style interaction.
+3. **Hike Rating**: A rating system will be added so users can rate hikes based on their experience, making it easier for others to find the best hikes.
+4. **User Profile Enhancements**: Future improvements may allow users to upload profile images and more customization options for their profiles.
 
 ---
 
-### **5️⃣ Register Page Only Showing Footer**
-- **Bug**: Missing `{% block content %}` in `register.html`, preventing the form from rendering.
-- **Fix**:
-  - Wrapped the content inside `{% block content %}` in `register.html`:
-    ```html
-    {% extends "base.html" %}
+## Deployment
 
-    {% block content %}
-    <h2>Register</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Sign Up</button>
-    </form>
-    {% endblock %}
-    ```
+To deploy this app on **Heroku**, follow these steps:
+
+1. Fork or clone the repository.
+2. Create a new Heroku app.
+3. Set up the necessary environment variables (e.g., `DEBUG=False`, `SECRET_KEY=<your_secret_key>`).
+4. Link the repository to Heroku and deploy it using Git.
+5. Run `python manage.py migrate` to apply migrations on Heroku.
 
 ---
-
-### **6️⃣ `TemplateDoesNotExist: base.html` Error**
-- **Bug**: Django couldn’t find `base.html` because it was placed in the wrong directory.
-- **Fix**:
-  - Moved `base.html` to the global `/templates/` directory.
-  - Updated `settings.py` to reference the correct template path:
-    ```python
-    TEMPLATES = [
-        {
-            'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        },
-    ]
-    ```
-
----
-
-### **8️⃣ Virtual Environment (`env/`) Accidentally Tracked in Git**
-- **Bug**: The virtual environment was committed to Git, causing conflicts during deployment.
-- **Fix**:
-  - Added `env/` to `.gitignore`:
-    ```bash
-    echo "env/" >> .gitignore
-    ```
-  - Removed it from Git:
-    ```bash
-    git rm -r --cached env/
-    ```
-
----
-
-### **9️⃣ Static Files Not Loading on Heroku**
-- **Bug**: Static files were not properly collected and served in production.
-- **Fix**:
-  - Configured `STATICFILES_DIRS` and `STATIC_ROOT` in `settings.py`:
-    ```python
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    ```
-  - Ran `collectstatic`:
-    ```bash
-    heroku run python manage.py collectstatic --noinput
-    ```
-
----
-
-### **9️⃣ Static Files Not Loading on Heroku**
-- **Bug**: Users could register but were unable to log in, both locally and on the deployed version. The issue was caused by missing authentication backends in settings.py, which prevented Django-Allauth from properly verifying user credentials.
-
-- - **Fix**: Added the required authentication backends in settings.py:
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
----
-
 
 ## Credits
+
+- **Django Framework** for powering the web application.
+
+- **Bootstrap** for the responsive design.
+
+- **Django-Allauth** for handling user authentication.
+
+- **Heroku** for cloud hosting.
+
+- **Stack Overflow** for troubleshooting and debugging various issues.
+
+- **Code Institute** for providing guidance on this project.
+
+- **Images**: Wireframes and screenshots used throughout the documentation come from the planning phase and actual development process.

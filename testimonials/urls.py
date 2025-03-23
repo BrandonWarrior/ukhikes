@@ -1,8 +1,8 @@
 """
 URL configuration for the testimonials app.
 
-This file maps URL patterns to the corresponding views for creating and
-listing testimonials.
+This file maps URL patterns to the corresponding views for creating,
+listing, and viewing details of testimonials.
 """
 
 from django.urls import path
@@ -18,5 +18,10 @@ urlpatterns = [
         'list/',
         views.testimonial_list,
         name='testimonial_list'
+    ),
+    path(
+        'testimonial/<int:id>/',
+        views.testimonial_detail,
+        name='testimonial_detail'
     ),
 ]

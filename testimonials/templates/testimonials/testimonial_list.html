@@ -3,9 +3,7 @@
 {% block content %}
 
 <div class="back-button">
-    <a href="{% url 'index' %}" class="btn btn-link">
-        &larr; Back to Home
-    </a>
+    <a href="{% url 'index' %}" class="btn btn-link">&larr; Back to Home</a>
 </div>
 
 <div class="container mt-5">
@@ -24,20 +22,27 @@
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">{{ testimonial.title }}</h5>
+                    <!-- Use a static heading, since there's no title field -->
+                    <h5 class="card-title">Testimonial by {{ testimonial.author.username }}</h5>
                     <p class="card-text">{{ testimonial.content|truncatewords:30 }}</p>
-                    <p class="text-muted">- {{ testimonial.author }} | {{ testimonial.created_at|date:"F d, Y" }}</p>
-                    <a href="{% url 'testimonial_detail' testimonial.id %}" class="btn btn-outline-primary btn-sm">Read More</a>
+                    <p class="text-muted">{{ testimonial.created_at|date:"F d, Y" }}</p>
+                    <a href="{% url 'testimonial_detail' testimonial.id %}" class="btn btn-outline-primary btn-sm">
+                        Read More
+                    </a>
                 </div>
             </div>
         </div>
         {% empty %}
-        <p class="text-center text-muted">No testimonials available. Be the first to share your experience!</p>
+        <p class="text-center text-muted">
+            No testimonials available. Be the first to share your experience!
+        </p>
         {% endfor %}
     </div>
 
     <div class="text-center mt-4">
-        <a href="{% url 'create_testimonial' %}" class="btn btn-success btn-lg">Submit Your Testimonial</a>
+        <a href="{% url 'create_testimonial' %}" class="btn btn-success btn-lg">
+            Submit Your Testimonial
+        </a>
     </div>
 </div>
 {% endblock %}

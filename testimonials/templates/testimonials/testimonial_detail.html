@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{#
+Template: testimonials/testimonial_detail.html
+Description:
+    Displays the full details of a single testimonial.
+    Note: Template comments using {# ... #} will not be rendered in the final HTML.
+#}
+
+{% block content %}
+<!-- Back Button: Back to Testimonial List -->
+<div class="back-button">
+    <a href="{% url 'testimonial_list' %}" class="btn btn-link">&larr; Back to Testimonials</a>
+</div>
+
+<div class="container mt-5">
+    <h2>Testimonial Detail</h2>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Testimonial by {{ testimonial.author.username }}</h5>
+            <p class="card-text">{{ testimonial.content }}</p>
+            <p class="text-muted">{{ testimonial.created_at|date:"F d, Y" }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

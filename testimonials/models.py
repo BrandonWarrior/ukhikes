@@ -25,7 +25,7 @@ class Testimonial(models.Model):
     content = models.TextField()
     rating = models.IntegerField(
         choices=[(i, i) for i in range(1, 6)],
-        default=5  # Rating from 1 to 5
+        default=5
     )
     created_at = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
