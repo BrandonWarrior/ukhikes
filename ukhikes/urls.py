@@ -10,7 +10,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("profile/", include("profiles.urls")),
     path("blog/", include("blog.urls")),
-    path("index/", home, name="home"),
+    path("", home, name="home"),
     path("testimonials/", include("testimonials.urls")),
     # Redirect /accounts/profile/ to /profile/
     path("accounts/profile/", lambda request: redirect('profile')),
