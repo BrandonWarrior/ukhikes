@@ -25,32 +25,20 @@ body {
     padding: 10px 20px;
 }
 
-/* Make All Buttons Green */
+/* Make All Buttons Dark Green */
 .btn,
 .btn-primary,
 .btn-success {
-    background-color: #198754 !important;
+    background-color: #146c43 !important;
     border-color: #146c43 !important;
     color: white !important;
 }
 
 /* Logout Button */
 .logout-btn {
-    background-color: #198754 !important;
+    background-color: #146c43 !important;
     border-color: #146c43 !important;
     color: white !important;
-}
-
-/* Effect for Logout */
-.logout-btn:hover,
-.logout-btn:focus,
-.logout-btn:active {
-    background-color: #146c43 !important;
-    border-color: #0f5132 !important;
-    color: white !important;
-    box-shadow: none !important;
-    filter: none !important;
-    text-decoration: none !important;
 }
 
 /* Fixed Footer */
@@ -88,13 +76,7 @@ body {
     text-decoration: none;
     margin: 0 10px;
     font-size: 24px;
-    transition: color 0.3s ease-in-out;
     display: inline-block;
-}
-
-/* Hover Effect for Social Media Icons */
-.social-links a:hover {
-    color: #ffcc00;
 }
 
 /* Profile Image Styling */
@@ -107,11 +89,6 @@ body {
     max-width: 100%;
     display: block;
     margin: 0 auto;
-    transition: transform 0.3s ease-in-out;
-}
-
-.profile-image:hover {
-    transform: scale(1.05);
 }
 
 /* Hero Section */
@@ -268,14 +245,9 @@ body {
     padding: 8px 15px;
     margin: 0 10px;
     text-decoration: none;
-    color: #fff;
-    background-color: #007bff;
+    color: white;
+    background-color: #146c43;
     border-radius: 5px;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.pagination a:hover {
-    background-color: #0056b3;
 }
 
 .pagination span {
@@ -286,20 +258,14 @@ body {
 /* Back Button Styling */
 .back-button {
     margin: 20px 10px;
-
 }
 
 .back-button a {
     font-size: 1rem;
     text-decoration: none;
     color: white !important;
-    background-color: #198754 !important;
+    background-color: #146c43 !important;
     border: 1px solid #146c43 !important;
     padding: 5px 10px;
     border-radius: 4px;
-}
-
-.back-button a:hover {
-    background-color: #146c43 !important;
-    text-decoration: none;
 }

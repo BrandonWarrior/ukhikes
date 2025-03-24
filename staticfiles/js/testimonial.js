@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (testimonialForm) {
         testimonialForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            console.log('Testimonial form submitted'); // Debug log
+            console.log('Testimonial form submitted');
 
             const formData = new FormData(testimonialForm);
 
