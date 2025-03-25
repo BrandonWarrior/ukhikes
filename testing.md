@@ -217,3 +217,21 @@ The JavaScript code for this project was tested using **[JSHint](https://jshint.
 - **Expected Result:**  
   - The log in attempt is prevented.
   - The user is prompted to fill in the missing information.
+
+---
+
+
+## **User Testing (Family and Friends)**
+
+### **Testing Overview**
+In addition to the manual testing conducted during the development of the **UK Hikes** website, I also invited family and friends to test the website. They were tasked with creating their own accounts, uploading images, and posting blog entries and testimonials.
+
+### **Testing Activities**
+- **Account Creation**: Testers successfully created user accounts with different username and password combinations.
+- **Content Creation**: Testers posted their own blog posts, including text and images, as well as submitting testimonials.
+- **Commenting**: Testers submitted comments on existing posts, ensuring that the commenting functionality worked as expected.
+- **Feedback**: Each participant provided valuable feedback regarding their experience using the site.
+
+### **Impact of User Feedback**
+The feedback collected from these users helped identify areas for improvement, particularly around user navigation, content submission, and commenting. This has been crucial in enhancing the overall user experience, ensuring that the website is intuitive and easy to use.
+
