@@ -200,5 +200,3 @@ As we continue to improve the **UK Hikes** platform, several features from the o
 
 ### **5. Enhanced Testimonials Features**
 - As testimonials are currently reviewed by admins, future updates may include the ability for **users to edit or delete** their own testimonials, providing them with more control over the content they contribute.
-
----

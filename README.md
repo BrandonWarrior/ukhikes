@@ -4,9 +4,10 @@
 
 **UK Hikes** is a community platform for outdoor enthusiasts to share, discover, and discuss their hiking experiences. It connects hikers by providing a space to exchange tips, recommend trails, and share real adventures. The site works seamlessly on desktops, tablets, and mobiles, keeping you connected wherever you are.
 
+For a detailed overview of the project’s design, user stories, and future features, see: [Project Planning](planning.md)
 
-For project planning, see: [Project Planning](planning.md)  
-For project testing, see: [Project Testing](testing.md)
+For a detailed overview of the testing process, including test cases, Lighthouse testing results, and validation checks, see: [Project Testing](testing.md)
+
 
 ---
 
@@ -241,7 +242,7 @@ The site checks that data is correct to help avoid mistakes:
 
 ## Deployment Guide
 
-**Important:** Make sure to add `.venv` to your `.gitignore`.
+**Important:** Make sure to add `.venv` to `.gitignore`.
 
 ### Local Setup
 
@@ -254,7 +255,7 @@ Open Terminal, navigate to your project directory, and run:
 python3 -m venv .venv
 source .venv/bin/activate
 ```
-*Remember to add `.venv` to your `.gitignore`.*
+Remember to add `.venv` to your `.gitignore`.
 
 #### 3. Install Dependencies
 Install the required packages with:
@@ -480,6 +481,36 @@ The **Account Deletion Modal** provides an extra layer of confirmation before pe
 This ensures that account deletion is a clear, deliberate process that minimizes the risk of accidental account removal.
 
 ---
+
+
+## URLs
+
+The **Profile App** includes various URL patterns for managing user accounts and profiles. Below are the URLs and their corresponding functionality:
+
+- **Register (`/register/`)**:  
+  Allows users to create a new account by providing their username, email, and password.
+
+- **Login (`/login/`)**:  
+  Lets users log in to the application with their credentials.
+
+- **Logout (`/logout/`)**:  
+  Logs out the currently authenticated user and redirects them to the homepage.
+
+- **Profile (`/`)**:  
+  Displays the logged-in user's profile page, including their personal information, posts, and activity.
+
+- **Edit Profile (`/edit/`)**:  
+  Allows users to edit their profile details, such as their username, bio, and profile picture.
+
+- **Delete Account (`/delete/`)**:  
+  Lets users delete their account and all associated data from the platform.
+
+These URLs provide the necessary views to manage user accounts, handle authentication, and enable profile customisation.
+
+
+
+---
+
 
 ## Conclusion
 
@@ -789,10 +820,76 @@ The **UK Hikes** platform uses **Cloudinary** for storing images uploaded for bl
 
 ## Credits
 
-- **Django Framework** – for powering the web application.
-- **Bootstrap** – for the responsive design.
-- **Django-Allauth** – for handling user authentication.
-- **Heroku** – for cloud hosting.
-- **Stack Overflow** – for troubleshooting and debugging.
-- **Code Institute** – for guidance throughout the project.
-- **Favicon** - For adding a Favicon to the website.
+# **Credits**
+
+- **Django Framework**  
+  Used for the back-end development of the UK Hikes project.  
+  [Django](https://www.djangoproject.com/)
+
+- **Bootstrap 5**  
+  Used for the front-end framework and responsive design.  
+  [Bootstrap 5](https://getbootstrap.com/)
+
+- **Font Awesome**  
+  Used for social media icons in the footer.  
+  [Font Awesome](https://fontawesome.com/)
+
+- **Heroku**  
+  Used for hosting the project online.  
+  [Heroku](https://www.heroku.com/)
+
+- **Stack Overflow**  
+  Used for finding answers to coding questions.  
+  [Stack Overflow](https://stackoverflow.com/)
+
+- **Favicon Generator**  
+  Used to create the site's favicons.  
+  [Favicon Generator](https://www.favicon-generator.org/)
+
+- **W3C HTML Validator**  
+  Used to validate and ensure the quality of the HTML code.  
+  [W3C HTML Validator](https://validator.w3.org/)
+
+- **JSHint**  
+  Used to validate and ensure the quality of the JavaScript code.  
+  [JSHint](https://jshint.com/)
+
+- **CSS3 Generator**  
+  Used for generating CSS code for custom styles.  
+  [CSS3 Generator](https://www.css3generator.com/)
+
+- **Code Institute**  
+  Used for guidance on the Django project walkthrough.  
+  [Code Institute: Django Project Walkthrough](https://codeinstitute.net/)
+
+- **YouTube: "Creating a User Profile with Django"**  
+  Used for guidance on creating user profiles in Django and linking them to the User model.  
+  [YouTube: Creating a User Profile with Django](https://www.youtube.com/watch?v=B40bteAMM_M&list=PLCC34OHNcOtr025c1kHSPrnP18YPB-NFi)
+
+- **YouTube: "Handling Cloudinary File Uploads in Django"**  
+  Used to help with handling Cloudinary file uploads.  
+  [YouTube: Handling Cloudinary File Uploads in Django](https://www.youtube.com/watch?v=fQo9ivqX4xs)
+
+- **Django Documentation: Custom User Model**  
+  The official documentation provides a guide on creating a custom user model or linking a profile model to the default User model. This is the standard approach for adding extra information to user accounts.  
+  [Django Custom User Model Documentation](https://docs.djangoproject.com/en/stable/topics/auth/customising/)
+
+- **Django Signals - How to Automatically Create and Save a User Profile**  
+  This article explains how to use Django signals to automatically create a user profile every time a new user is created. The post_save signal is commonly used for this purpose.  
+  [Django Signals Documentation](https://docs.djangoproject.com/en/stable/ref/signals/)
+
+- **Tutorial: How to Add a Profile Model in Django**  
+  This tutorial explains the step-by-step process of creating a Profile model that is linked to the User model. It covers fields like profile_picture, bio, and location and how to save the profile information.  
+  [Tutorial - Adding a Profile Model in Django](https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-add-a-profile-model-in-django.html)
+
+- **Django Models and Slug Generation**  
+  This article explains how to create models, define relationships (like ForeignKey), and use `slugify` to generate slugs for URLs.  
+  [Django Models Documentation](https://docs.djangoproject.com/en/stable/topics/db/models/)
+
+- **Django Forms**  
+  This official Django guide explains how to work with forms, including form validation, widgets, and customising forms.  
+  [Django Forms Documentation](https://docs.djangoproject.com/en/stable/topics/forms/)
+
+- **Django CRUD Operations**  
+  This tutorial covers how to perform CRUD operations (Create, Read, Update, Delete) on models using Django views and forms.  
+  [Django CRUD Tutorial](https://www.djangoproject.com/start/)

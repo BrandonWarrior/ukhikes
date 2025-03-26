@@ -235,3 +235,42 @@ In addition to the manual testing conducted during the development of the **UK H
 ### **Impact of User Feedback**
 The feedback collected from these users helped identify areas for improvement, particularly around user navigation, content submission, and commenting. This has been crucial in enhancing the overall user experience, ensuring that the website is intuitive and easy to use.
 
+
+---
+
+
+# **Bugs and Fixes**
+
+### **1. Static File Update Issue**
+- **Bug:**  
+  The static file was mistakenly updated in the wrong directory (`staticfile/css/styles.css`) instead of the correct directory (`static/css/styles.css`), resulting in the changes not being reflected on the website.
+
+- **Fix:**  
+  The path to the correct directory was updated, and the `collectstatic` command was run to gather all static files, ensuring the styles were applied correctly to the site.
+
+---
+
+### **2. Favicon Path Issue**
+- **Bug:**  
+  The favicon was not displaying correctly because the file path was incorrectly specified in the base template (`base.html`). The incorrect directory path prevented the favicon from being loaded.
+
+- **Fix:**  
+  The correct path to the favicon was updated in the template. After making this change, the favicon displayed correctly in the browser.
+
+---
+
+### **3. Committed Secret Keys to Version Control**
+- **Bug:**  
+  The sensitive `SECRET_KEY` was accidentally committed to the Git repository, making it publicly visible and compromising security.
+
+- **Fix:**  
+  A new secret key was generated, and the old one was removed from the repository’s history. The new key was placed in a `.env` file, and the `.gitignore` file was updated to ensure the `.env` file was excluded from version control. The application was then updated to load the secret key securely from the environment variables.
+
+---
+
+### **4. Database Not Working Due to Missing Heroku Config Var**
+- **Bug:**  
+  The application was not connecting to the database after deploying to Heroku. Errors occurred when performing database-related actions due to the absence of the necessary database configuration.
+
+- **Fix:**  
+  The missing `DATABASE_URL` config variable was added to Heroku's environment variables. After this, the application was updated to use the correct database configuration, ensuring that the database connection was properly established.
