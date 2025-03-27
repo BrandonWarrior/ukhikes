@@ -297,12 +297,6 @@ To ensure that your Django project runs securely in a production environment, yo
 6. **Static Files**: 
    Set up static file handling to ensure that your CSS, JavaScript, and images are served correctly in production. Use `Whitenoise` to serve static files efficiently.
 
-7. **Security Settings**: 
-   Apply production security settings, including:
-   - **CSRF and Session Cookie Security**: Ensure that cookies are transmitted over HTTPS by setting `CSRF_COOKIE_SECURE` and `SESSION_COOKIE_SECURE` to `True`.
-   - **SSL Redirection**: If you're using HTTPS, set `SECURE_SSL_REDIRECT` to `True` to ensure all traffic is redirected to HTTPS.
-   - **Proxy Header Configuration**: Configure your web server to forward secure headers when using a reverse proxy (e.g., Heroku).
-
 By following these steps, you ensure that your Django application is secure and optimally configured for production environments.
 
 #### 4. Deploy via GitHub Integration (No CLI Needed)
@@ -830,6 +824,8 @@ The **UK Hikes** platform uses **Cloudinary** for storing images uploaded for bl
 - **Code Institute**  
   Used for guidance on the Django project walkthrough.  
   [Code Institute: Django Project Walkthrough](https://codeinstitute.net/)
+
+- - **Code Institute**: The configuration and deployment setup of this Django project is inspired by the **Code Institute's** [Django blog project](https://github.com/Code-Institute-Solutions/Django3blog/blob/master/12_final_deployment/codestar/settings.py#L40), which guided the use of **Cloudinary** for media storage and **WhiteNoise** for static file handling. 
 
 - **YouTube: "Creating a User Profile with Django"**  
   Used for guidance on creating user profiles in Django and linking them to the User model.  
