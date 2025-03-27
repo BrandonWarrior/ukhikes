@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'cloudinary_storage',
     'django.contrib.staticfiles',
+    'cloudinary',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -64,7 +65,7 @@ INSTALLED_APPS = [
     'blog',
     'profiles',
     'testimonials',
-    'cloudinary'
+    
 ]
 
 MIDDLEWARE = [
