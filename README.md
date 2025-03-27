@@ -8,7 +8,8 @@ For a detailed overview of the project’s design, user stories, and future feat
 
 For a detailed overview of the testing process, including test cases, Lighthouse testing results, and validation checks, see: [Project Testing](testing.md)
 
-
+![Repsonisve](docs/images/responsive.png)
+![Responsive](docs/images/desktop.png)
 ---
 
 ## Features
